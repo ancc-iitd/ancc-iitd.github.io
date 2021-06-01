@@ -1,8 +1,111 @@
-<html>
+<!doctype html>
+<html lang="en">
   <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <!-- Font awesome icons -->
+    <script src="https://kit.fontawesome.com/494909da4a.js" crossorigin="anonymous"></script>
     <title>ANCC IITD</title>
+    <!-- Codeforces CSS-->
+    <style type="text/css">.recent-actions{margin:1em;font-size:.9em}.rated-user{font-family:helvetica neue,Helvetica,Arial,sans-serif;text-decoration:none!important;font-weight:700;display:inline-block}.user-black{color:#000!important;font-weight:400!important}.user-legendary{color:red!important}.user-legendary::first-letter{color:#000!important}.legendary-user-first-letter{color:#000!important}.user-red{color:red!important}.user-fire{color:red!important}.user-yellow{color:#bb0!important}.user-violet{color:#a0a!important}.user-orange{color:#ff8c00!important}.user-blue{color:blue!important}.user-cyan{color:#03a89e!important}.user-green{color:green!important}.user-gray{color:gray!important}.user-admin{color:#000!important}</style>
   </head>
   <body>
-    Hello World!
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand h1 my-0" href="index.html">ANCC</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-sm-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+            </li>
+            <!--
+            <li class="nav-item">
+              <a class="nav-link" href="resources.html">Resources</a>
+            </li>-->
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="px-3 pt-5 pb-4 mb-3 text-center text-white" style="background-color: #373c45">
+      <h1 class="display-2">Algorithms and Coding Club<br>IIT Delhi</h1>
+      <p class="lead">Learn. Code. Win.</p>
+      <hr class="my-3 mx-5">
+      <a target="_blank" class = "m-2 text-white" href="https://www.youtube.com/channel/UC7XoOZ3Ip7i8-78jYLjAC2Q"><i class="fab fa-youtube fa-3x"></i></a>
+      <a target="_blank" class = "m-2 text-white" href="https://www.instagram.com/ancc.iitd/?hl=en"><i class="fab fa-instagram fa-3x"></i></a>
+      <a target="_blank" class = "m-2 text-white" href="https://www.facebook.com/anciitd/"> <i class="fab fa-facebook fa-3x"></i></a> 
+      <a target="_blank" class = "m-2 text-white" href="https://discord.gg/ABKCztFPgT"><i class="fab fa-discord fa-3x"></i></a>
+    </div>
+    <main class="container my-4">
+      <h1 id="teamH" class="text-center" style="display: none;">Our Team</h1>
+      <div id="team" class="row row-cols-md-4 g-4"></div>
+    </main>
+    <nav class="page-footer font-small text-white py-3 bg-dark">
+      <div class="container-fluid text-center">
+        © 2021 Copyright: ANCC IIT Delhi
+      </div>
+    </nav>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      function generateCard(name, position, codeforces, github, linkedin) {
+        let card = "<div class='col'><div class='card text-center'><div class='card-header py-1'><h5 class='card-title'>"+name+"</h5><h6 class='card-subtitle mb-1 text-muted'>"+position+"</h6></div><div class='card-body py-2'>"
+        if (linkedin !="") card+= "<a target='_blank' href="+linkedin+" class='card-link'><i class='fab fa-linkedin fa-2x'></i></a>";
+        if (github !="") card+="<a target='_blank' href='https://github.com/"+github+"' class='card-link text-dark'><i class='fab fa-github fa-2x'></i></a>";
+        if (codeforces !="") card+="<a target='_blank' href='https://codeforces.com/profile/"+codeforces+"' class='card-link rated-user user-black'>"+codeforces+"</a>";
+        card+="</div></div></div>";
+        return card;
+      }
+      function updateColors() {
+        var users = document.getElementsByClassName('rated-user');
+        var query="";
+        for (var i=0; i<users.length; i++) {
+          query+=users[i].innerText+";";
+        }
+        let API = new XMLHttpRequest();
+        API.open("GET", "https://codeforces.com/api/user.info?handles="+query, false);
+        API.send(null);
+        let cf = JSON.parse(API.responseText);
+        for (var i=0; i<users.length; i++) {
+          color="black";
+          switch(cf.result[i].rank){
+            case "newbie" : color   = "gray"; break ; 
+            case "pupil" : color = "green" ; break ; 
+            case "specialist" : color  = "cyan" ; break ; 
+            case "expert" : color = "blue" ; break ; 
+            case "candidate master" : color = "violet" ; break ; 
+            case "master" : color = "orange"; break ;      
+            case "international master" : color = "orange"; break ;      
+            case "grandmaster"  : color = "red"; break;
+            case "international grandmaster" : color = "fire"; break;
+            case "legendary grandmaster" : color = "legendary"; break;
+          }
+          users[i].className="card-link rated-user user-"+color;
+        }
+      }
+      function getTeam() {
+        let Sheet = new XMLHttpRequest();
+        Sheet.open("GET","https://docs.google.com/spreadsheets/d/1sg70evycX2qYOnX42Dtb94Kv-P9jO_7_MdH4MvqW5Ck/export?format=tsv",false);
+        Sheet.send(null);
+        let values=Sheet.responseText ?? "";
+        if (values) {
+          document.getElementById('teamH').style="display:block;";
+          let rows=values.split('\r');
+          teamstr=""
+          rows.forEach(r=> {
+            cols=r.split('\t');
+            teamstr+=generateCard(cols[0],cols[1],cols[2],cols[3],cols[4]);
+          })
+          document.getElementById('team').innerHTML=teamstr;
+          updateColors();
+        }
+      }
+      getTeam();
+    </script>
   </body>
 </html>
