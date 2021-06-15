@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <!-- Font awesome icons -->
+    <script src="https://kit.fontawesome.com/494909da4a.js" crossorigin="anonymous"></script>
+    <title>SoCP | ANCC IITD</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand h1 my-0" href="index.html">ANCC</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-sm-0">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="socp.html">SoCP</a>
+            </li>
+            <!-- <li class="nav-item">
+              <a class="nav-link" href="resources.html">Resources</a>
+            </li> -->
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="px-3 pt-5 pb-4 mb-3 text-center text-white" style="background-color: #373c45">
+      <h1 class="display-2">Summer of Competitive Programming</h1>
+      <hr class="my-3 mx-5">
+      <p class="lead">Join the summer fun today!</p>
+    </div>
+    <main class="container my-4">
+      <h1 id="eventsH" class="text-center" style="display: none;">Events</h1>
+      <div id="events" class="row row-cols-md-4 g-4"></div>
+    </main>
+    <nav class="page-footer font-small text-white py-3 bg-dark">
+      <div class="container-fluid text-center">
+        © 2021 Copyright: ANCC IIT Delhi
+      </div>
+    </nav>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      function generateCard(eventDate, eventTitle, eventDesc, mainLink, suppLink, imgSrc, imgLink) {
+        let card = "<div class='col'><div class='card text-center'>";
+        if (eventDate) {
+          card+="<div class='card-header'>"+eventDate+"</div>";
+        }
+        if (imgLink) {
+          card+="<a target='_blank' href='"+imgLink+"'>";
+        }
+        if (imgSrc) {
+          card+="<img src='"+imgSrc+"' class='rounded-0 card-img-top'>";
+        }
+        if (imgLink) {
+          card+="</a>";
+        }
+        card+="<div class='card-body'>";
+        if (eventTitle) {
+          card+="<h5 class='card-title'>"+eventTitle+"</h5>";
+        }
+        if (eventDesc) {
+          card+="<p class='card-text'>"+eventDesc+"</p>";
+        }
+        if (mainLink || suppLink) {
+          card+="<div class='btn-group'>";
+            if (mainLink) {
+              card+="<a target='_blank' href='"+mainLink+"' class='btn btn-primary'>Session Link</a>";
+            }
+            if (suppLink) {
+              card+="<a target='_blank' href='"+suppLink+"' class='btn btn-success'>Afternotes</a>";
+            }
+          card+="</div>";
+        }
+            card+="</div>";
+          card+="</div>";
+        card+="</div>";
+        return card;
+      }
+      function getEvents() {
+        let Sheet = new XMLHttpRequest();
+        Sheet.open("GET","https://docs.google.com/spreadsheets/d/1mCNoPTRvEBoSY1JAim4sokCINX199cirQ-p-sLeLdoY/export?format=tsv",false);
+        Sheet.send(null);
+        let values=Sheet.responseText ?? "";
+        if (values) {
+          document.getElementById('eventsH').style="display:block;";
+          let rows=values.split('\r');
+          eventsstr="";
+          rows.forEach(r=> {
+            cols=r.split('\t');
+            eventsstr+=generateCard(cols[0],cols[1],cols[2],cols[3],cols[4],cols[5],cols[6]);
+          })
+          document.getElementById('events').innerHTML=eventsstr;
+        }
+      }
+      getEvents();
+    </script>
+  </body>
+</html>
