@@ -7,11 +7,14 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link href="./main.css" rel="stylesheet" >
+
     <!-- Font awesome icons -->
     <script src="https://kit.fontawesome.com/494909da4a.js" crossorigin="anonymous"></script>
     <title>SoCP | ANCC IITD</title>
   </head>
-  <body>
+  <body style="background-color: black">
+    
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
       <div class="container-fluid">
         <a class="navbar-brand h1 my-0" href="index.html">ANCC</a>
@@ -33,26 +36,53 @@
         </div>
       </div>
     </nav>
-    <div class="px-3 pt-5 pb-4 mb-3 text-center text-white" style="background-color: #373c45">
+    
+
+    <div class="px-3 pt-5 pb-4 mb-3 text-center text-white bg-dark" style="background-color: #747474; border-radius: 0 0 60% 60%/0 0 30% 30%;  z-index: 9999; opacity: 1.0;">
       <h1 class="display-2">Summer of Competitive Programming</h1>
       <hr class="my-3 mx-5">
       <p class="lead">Join the summer fun today!</p>
+      <div class="flex-type" style="h2, a, p {
+        color: #fff ;
+        text-decoration: none;
+      }
+      p>a {
+        color: #fd084a;
+      }
+      .blink {
+        animation: blink 0.5s infinite;
+      }
+      @keyframes blink{
+        to { opacity: .0; }
+      }
+      .flex-type {
+        display: flex;
+      }
+      
+      ">
+        Learn <span class="header-sub-title" id="word"></span>
+      </div>
     </div>
-    <main class="container my-4">
-      <h1 id="eventsH" class="text-center" style="display: none;">Events</h1>
-      <div id="events" class="row row-cols-md-4 g-4"></div>
+    <main class="container my-4 stars"style="background-color: black;z-index: -1;">
+      <div id="stars" style="z-index: -1;"></div>
+      
+      <h1 id="eventsH" class="text-center text-white " style="display: none;">Events</h1>
+      <div id="events" class="row row-cols-md-4 g-4 pt-5"></div>
+      
     </main>
     <nav class="page-footer font-small text-white py-3 bg-dark">
       <div class="container-fluid text-center">
         © 2021 Copyright: ANCC IIT Delhi
       </div>
     </nav>
+    <script src="main.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
     <script type="text/javascript">
       function generateCard(eventDate, eventTitle, eventDesc, mainLink, suppLink, imgSrc, imgLink) {
-        let card = "<div class='col'><div class='card text-center'>";
+        let card = "<div class='col'><div class='card text-center text-white' style=\"background-color: #22262A \">";
         if (eventDate) {
-          card+="<div class='card-header'>"+eventDate+"</div>";
+          card+="<div class='card-header'style=\"background-color: #181A1D \">"+eventDate+"</div>";
         }
         if (imgLink) {
           card+="<a target='_blank' href='"+imgLink+"'>";
@@ -103,5 +133,6 @@
       }
       getEvents();
     </script>
+
   </body>
 </html>
