@@ -24,7 +24,7 @@
     -webkit-animation: animStar 100s linear infinite;
             animation: animStar 100s linear infinite; }
   
-  #stars2:after {
+  #stars2 {
     content: " ";
     position: absolute;
     width: 2px;
@@ -40,14 +40,6 @@
     -webkit-animation: animStar 150s linear infinite;
             animation: animStar 150s linear infinite; }
   
-  #stars3:after {
-    content: " ";
-    position: absolute;
-    width: 3px;
-    height: 3px;
-    background: transparent;
-    box-shadow: 691px 57px #FFF , 362px 1401px #FFF , 1636px 1491px #FFF , 1270px 705px #FFF , 1284px 1036px #FFF , 1103px 275px #FFF , 659px 1849px #FFF , 621px 1370px #FFF , 897px 1861px #FFF , 1297px 629px #FFF , 1650px 927px #FFF , 19px 1417px #FFF , 1809px 1921px #FFF , 1133px 1819px #FFF , 703px 491px #FFF , 233px 836px #FFF , 1893px 1200px #FFF , 409px 1268px #FFF , 211px 514px #FFF , 1155px 1465px #FFF , 1731px 1562px #FFF , 1508px 746px #FFF , 613px 866px #FFF , 1430px 655px #FFF , 1131px 1775px #FFF , 1800px 1728px #FFF , 227px 1051px #FFF , 553px 1502px #FFF , 804px 763px #FFF , 420px 471px #FFF , 716px 954px #FFF , 178px 300px #FFF , 1626px 381px #FFF , 1322px 1133px #FFF , 318px 1340px #FFF , 1161px 1258px #FFF , 718px 317px #FFF , 1284px 1760px #FFF , 1140px 1699px #FFF , 595px 1048px #FFF , 1814px 1252px #FFF , 144px 693px #FFF , 1832px 1833px #FFF , 835px 1738px #FFF , 272px 1849px #FFF , 1652px 444px #FFF , 745px 1456px #FFF , 645px 1285px #FFF , 1499px 722px #FFF , 1256px 181px #FFF , 1772px 220px #FFF , 1985px 1630px #FFF , 475px 1422px #FFF , 699px 1927px #FFF , 288px 1586px #FFF , 1120px 1622px #FFF , 1918px 544px #FFF , 1395px 1059px #FFF , 326px 1209px #FFF , 1290px 1065px #FFF , 726px 1189px #FFF , 363px 1287px #FFF , 725px 1370px #FFF , 528px 824px #FFF , 1819px 1660px #FFF , 214px 1664px #FFF , 494px 1804px #FFF , 1744px 233px #FFF , 1942px 26px #FFF , 1291px 404px #FFF , 525px 1681px #FFF , 503px 758px #FFF , 75px 166px #FFF , 1111px 353px #FFF , 1935px 191px #FFF , 185px 695px #FFF , 1503px 888px #FFF , 1335px 598px #FFF , 591px 893px #FFF , 1522px 1281px #FFF , 735px 1194px #FFF , 48px 1884px #FFF , 769px 1072px #FFF , 1332px 533px #FFF , 1029px 822px #FFF , 1956px 85px #FFF , 80px 1474px #FFF , 1107px 1720px #FFF , 1954px 1044px #FFF , 1384px 1732px #FFF , 317px 678px #FFF , 269px 623px #FFF , 600px 1466px #FFF , 536px 1611px #FFF , 1238px 488px #FFF , 1404px 864px #FFF , 1527px 1407px #FFF , 771px 1888px #FFF , 1676px 466px #FFF , 1257px 1135px #FFF; }
-  
 @-webkit-keyframes animStar {
     from {
       transform: translateY(0px); }
@@ -60,3 +52,63 @@
     to {
       transform: translateY(-2000px); } }
   
+      .blinking-cursor {
+        color: #ffffff;
+        -webkit-animation: 1s blink step-end infinite;
+        -moz-animation: 1s blink step-end infinite;
+        -ms-animation: 1s blink step-end infinite;
+        -o-animation: 1s blink step-end infinite;
+        animation: 1s blink step-end infinite;
+    }
+    
+    @keyframes "blink" {
+        from,
+        to {
+            color: transparent;
+        }
+        50% {
+            color: white;
+        }
+    }
+    
+    @-moz-keyframes blink {
+        from,
+        to {
+            color: transparent;
+        }
+        50% {
+            color: white;
+        }
+    }
+    
+    @-webkit-keyframes "blink" {
+        from,
+        to {
+            color: transparent;
+        }
+        50% {
+            color: white;
+        }
+    }
+    
+    @-ms-keyframes "blink" {
+        from,
+        to {
+            color: transparent;
+        }
+        50% {
+            color: white;
+        }
+    }
+    
+    @-o-keyframes "blink" {
+        from,
+        to {
+            color: transparent;
+        }
+        50% {
+            color: white;
+        }
+    }
+    
+    
