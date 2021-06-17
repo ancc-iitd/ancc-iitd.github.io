@@ -1,4 +1,4 @@
-const words = [' Graphs     ', ' Dynamic Programming     ',' Linked List     ',' Recurssion     ',' DFS     '];
+const words = [' Graphs     ', ' Dynamic Programming     ',' Linked List     ',' Recursion     ',' DFS     '];
 let i = 0;
 let timer;
 
