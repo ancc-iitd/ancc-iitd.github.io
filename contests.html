@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <title>ANCC IITD - Contests</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Codeforces CSS-->
+    <style type="text/css">
+      .recent-actions{margin:1em;font-size:.9em}
+      .rated-user{font-family:'Inter', sans-serif;text-decoration:none!important;font-weight:600;display:inline-block;transition:all 0.3s ease}
+      .user-black{color:#6c757d!important;font-weight:500!important}
+      .user-legendary{color:#ff0000!important}
+      .user-legendary::first-letter{color:#000!important}
+      .legendary-user-first-letter{color:#000!important}
+      .user-red{color:#ff3030!important}
+      .user-fire{color:#ff0000!important}
+      .user-yellow{color:#ffd700!important}
+      .user-violet{color:#a855f7!important}
+      .user-orange{color:#f97316!important}
+      .user-blue{color:#3b82f6!important}
+      .user-cyan{color:#06b6d4!important}
+      .user-green{color:#10b981!important}
+      .user-gray{color:#6b7280!important}
+      .user-admin{color:#000!important}
+    </style>
+    
+    <style>
+      :root {
+        --primary-color: #6366f1;
+        --secondary-color: #8b5cf6;
+        --accent-color: #f59e0b;
+        --dark-bg: #0f172a;
+        --card-bg: #1e293b;
+        --card-hover: #334155;
+        --text-primary: #f8fafc;
+        --text-secondary: #cbd5e1;
+        --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Inter', sans-serif;
+        background: var(--dark-bg);
+        color: var(--text-primary);
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      /* Animated background */
+      .bg-animated {
+        background: linear-gradient(-45deg, #0f172a, #1e293b, #334155, #475569);
+        background-size: 400% 400%;
+        animation: gradientShift 15s ease infinite;
+      }
+
+      @keyframes gradientShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+
+      /* Floating particles */
+      .particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        pointer-events: none;
+      }
+
+      .particle {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: rgba(99, 102, 241, 0.5);
+        border-radius: 50%;
+        animation: float 20s infinite linear;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(100vh) rotate(0deg);
+          opacity: 0;
+        }
+        10% {
+          opacity: 1;
+        }
+        90% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-100vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      /* Navigation */
+      .navbar {
+        backdrop-filter: blur(10px);
+        background: rgba(15, 23, 42, 0.9) !important;
+        border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+        transition: all 0.3s ease;
+      }
+
+      .navbar-brand {
+        font-weight: 700;
+        font-size: 1.5rem;
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .nav-link {
+        font-weight: 500;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .nav-link:hover {
+        color: var(--primary-color) !important;
+        transform: translateY(-2px);
+      }
+
+      .nav-link.active {
+        color: var(--primary-color) !important;
+      }
+
+      /* Hero section */
+      .hero-section {
+        background: var(--gradient);
+        border-radius: 0 0 50px 50px;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 4rem;
+      }
+
+      .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+        opacity: 0.1;
+      }
+
+      .hero-title {
+        font-weight: 800;
+        letter-spacing: -0.025em;
+        text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        position: relative;
+        z-index: 2;
+      }
+
+      /* Contest Cards */
+      .contests-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 2rem;
+        padding: 2rem 0;
+      }
+
+      .contest-card {
+        background: var(--card-bg);
+        border-radius: 20px;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border: 1px solid rgba(99, 102, 241, 0.1);
+        position: relative;
+      }
+
+      .contest-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: var(--gradient);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
+
+      .contest-card:hover::before {
+        transform: scaleX(1);
+      }
+
+      .contest-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        background: var(--card-hover);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(99, 102, 241, 0.2);
+      }
+
+      .contest-header {
+        background: rgba(99, 102, 241, 0.05);
+        border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+        padding: 1.5rem 2rem;
+        text-align: center;
+      }
+
+      .contest-name {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0;
+        color: var(--text-primary);
+      }
+
+      .contest-details {
+        padding: 2rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+      }
+
+      .detail-block {
+        text-align: center;
+        padding: 1rem;
+        background: rgba(99, 102, 241, 0.05);
+        border-radius: 12px;
+        transition: all 0.3s ease;
+      }
+
+      .detail-block:hover {
+        background: rgba(99, 102, 241, 0.1);
+        transform: translateY(-2px);
+      }
+
+      .detail-label {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+      }
+
+      .detail-value {
+        font-size: 1rem;
+        color: var(--text-primary);
+        font-weight: 600;
+      }
+
+      .contest-actions {
+        padding: 1.5rem 2rem 2rem;
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .action-btn {
+        background: var(--gradient);
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 25px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+        cursor: pointer;
+      }
+
+      .action-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
+        color: white;
+        text-decoration: none;
+      }
+
+      .action-btn.secondary {
+        background: rgba(99, 102, 241, 0.1);
+        color: var(--text-primary);
+      }
+
+      .action-btn.secondary:hover {
+        background: rgba(99, 102, 241, 0.2);
+        color: var(--text-primary);
+      }
+
+      .action-btn.status {
+        background: var(--gradient-2);
+        cursor: default;
+      }
+
+      .action-btn.status:hover {
+        transform: none;
+        box-shadow: none;
+      }
+
+      /* Social links */
+      .social-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .social-link::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        transition: all 0.3s ease;
+        transform: translate(-50%, -50%);
+      }
+
+      .social-link:hover::before {
+        width: 100px;
+        height: 100px;
+      }
+
+      .social-link:hover {
+        transform: translateY(-3px);
+      }
+
+      .youtube-link {
+        background: linear-gradient(135deg, #ff0000, #cc0000);
+        color: white;
+      }
+
+      .instagram-link {
+        background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+        color: white;
+      }
+
+      .facebook-link {
+        background: linear-gradient(135deg, #3b5998, #4a69a4);
+        color: white;
+      }
+
+      .discord-link {
+        background: linear-gradient(135deg, #5865f2, #7289da);
+        color: white;
+      }
+
+      /* Loading */
+      #loading {
+        text-align: center;
+        padding: 4rem 0;
+      }
+
+      /* Responsive design */
+      @media (max-width: 768px) {
+        .contests-container {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+        
+        .hero-title {
+          font-size: 2.5rem !important;
+        }
+        
+        .contest-details {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+        
+        .contest-actions {
+          flex-direction: column;
+          align-items: center;
+        }
+      }
+
+      /* Animations */
+      .fade-in {
+        animation: fadeIn 0.8s ease forwards;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .stagger-animation .contest-card {
+        opacity: 0;
+        animation: staggerIn 0.6s ease forwards;
+      }
+
+      @keyframes staggerIn {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Hide template */
+      .is-template {
+        display: none !important;
+      }
+    </style>
+  </head>
+  <body class="bg-animated">
+    <!-- Floating particles -->
+    <div class="particles" id="particles"></div>
+
+    <nav class="navbar navbar-expand-sm navbar-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand h1 my-0" href="index.html">ANCC</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-sm-0">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="contests.html">Contests</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="pod.html">Problem of the Day</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="team2025.html">Team 2025</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="team2024.html">Team 2024</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="socp.html">SoCP 2021</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="hero-section px-3 pt-5 pb-4 mb-3 text-center text-white">
+      <h1 class="hero-title display-2">Algorithms and Coding Club<br>IIT Delhi</h1>
+      <p class="lead mt-3">Learn. Code. Win.</p>
+      <hr class="my-3 mx-5">
+      <div class="d-flex justify-content-center mt-4">
+        <a target="_blank" class="social-link youtube-link m-2" href="https://www.youtube.com/channel/UC7XoOZ3Ip7i8-78jYLjAC2Q">
+          <i class="fab fa-youtube"></i>
+        </a>
+        <a target="_blank" class="social-link instagram-link m-2" href="https://www.instagram.com/ancc.iitd/?hl=en">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a target="_blank" class="social-link facebook-link m-2" href="https://www.facebook.com/anciitd/">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a target="_blank" class="social-link discord-link m-2" href="https://discord.gg/x8pvE8sFGP">
+          <i class="fab fa-discord"></i>
+        </a>
+      </div>
+    </div>
+
+    <main class="container my-4">
+      <h1 id="contestsH" class="text-center text-white mb-5" style="display: none;">Contests organized by ANCC</h1>
+      
+      <div id="loading" class="text-center text-white py-5">
+        <div class="spinner-border text-primary mb-3" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p>Loading contests...</p>
+      </div>
+      
+      <div id="contests" class="contests-container"></div>
+    </main>
+
+    <nav class="footer font-small text-white py-4" style="background: rgba(15, 23, 42, 0.9); border-top: 1px solid rgba(99, 102, 241, 0.2); backdrop-filter: blur(10px); margin-top: 4rem;">
+      <div class="container-fluid text-center">
+        <p class="mb-0">Copyright © 2025 ANCC IIT Delhi</p>
+        <p class="small mt-2 text-muted">Building the future of competitive programming</p>
+      </div>
+    </nav>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    
+    <script type="text/javascript">
+      // Create floating particles
+      function createParticles() {
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = 50;
+        
+        for (let i = 0; i < particleCount; i++) {
+          const particle = document.createElement('div');
+          particle.className = 'particle';
+          particle.style.left = Math.random() * 100 + '%';
+          particle.style.animationDelay = Math.random() * 20 + 's';
+          particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+          particlesContainer.appendChild(particle);
+        }
+      }
+
+      function generateContest(detailsMap) {
+        let card = "<div class='contest-card fade-in'>";
+        
+        // Contest header with name
+        card += "<div class='contest-header'>";
+        card += "<h5 class='contest-name'>" + detailsMap['Name'] + "</h5>";
+        card += "</div>";
+        
+        // Contest details grid
+        card += "<div class='contest-details'>";
+        
+        // Start date and time
+        card += "<div class='detail-block'>";
+        card += "<div class='detail-label'>Starts on</div>";
+        card += "<div class='detail-value'>" + detailsMap['Start Date'] + "</div>";
+        card += "<div class='detail-value' style='font-size: 0.9rem; margin-top: 0.25rem;'>" + detailsMap['Start Time'] + "</div>";
+        card += "</div>";
+        
+        // Duration
+        card += "<div class='detail-block'>";
+        card += "<div class='detail-label'>Duration</div>";
+        card += "<div class='detail-value'>" + detailsMap['Duration'] + "</div>";
+        card += "</div>";
+        
+        card += "</div>";
+        
+        // Actions section
+        card += "<div class='contest-actions'>";
+        
+        // Editorial button
+        if (detailsMap['Editorial Link'] && detailsMap['Editorial Link'] != "") {
+          card += "<a href='" + detailsMap['Editorial Link'] + "' target='_blank' class='action-btn'>";
+          card += "<i class='fas fa-book'></i> Editorial</a>";
+        }
+        
+        // Virtual participation button
+        if (detailsMap['Virtual Participation Link'] && detailsMap['Virtual Participation Link'] != "") {
+          card += "<a href='" + detailsMap['Virtual Participation Link'] + "' target='_blank' class='action-btn secondary'>";
+          card += "<i class='fas fa-play'></i> Virtual Participate</a>";
+        }
+        
+        // Contest status/action button
+        if (detailsMap['Action Link'] && detailsMap['Action Link'] != "") {
+          card += "<a href='" + detailsMap['Action Link'] + "' target='_blank' class='action-btn status'>";
+          card += detailsMap['Contest Progress'] + "</a>";
+        } else {
+          card += "<span class='action-btn status'>";
+          card += detailsMap['Contest Progress'] + "</span>";
+        }
+        
+        card += "</div>";
+        card += "</div>";
+        
+        return card;
+      }
+
+      function loadContests() {
+        let Sheet = new XMLHttpRequest();
+        Sheet.open("GET","https://docs.google.com/spreadsheets/d/1RWcSfjy6gEPpgkwgm_6sHOPnDNdwK0QpzQQXHeyKUzw/export?format=tsv",true);
+
+        Sheet.onload = () => {
+          let values = Sheet.responseText;
+          document.getElementById('loading').style.display = 'none';
+          document.getElementById('contestsH').style = "display:block;";
+          
+          let index = [];
+          let firstRow = true;
+          let rows = values.split('\r');
+          let contestsHtml = "";
+          
+          rows.forEach(r => {
+            cols = r.split('\t');
+            if(firstRow) {
+              cols.forEach(col => index.push(col));
+            }
+            else {
+              let detailsMap = {};
+              for(let i = 0; i < cols.length; i++) {
+                detailsMap[index[i]] = cols[i];
+              }
+              contestsHtml += generateContest(detailsMap);
+            }
+            firstRow = false;
+          });
+          
+          document.getElementById('contests').innerHTML = contestsHtml;
+          document.getElementById('contests').classList.add('stagger-animation');
+          
+          // Stagger the card animations
+          const cards = document.querySelectorAll('.contest-card');
+          cards.forEach((card, index) => {
+            card.style.animationDelay = (index * 0.1) + 's';
+            card.style.transform = 'translateY(50px)';
+          });
+        }
+        Sheet.send(null);
+      }
+
+      // Initialize everything
+      document.addEventListener('DOMContentLoaded', function() {
+        createParticles();
+        loadContests();
+      });
+    </script>
+  </body>
+</html>
