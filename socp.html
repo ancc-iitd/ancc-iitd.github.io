@@ -379,10 +379,10 @@
               <a class="nav-link" href="index.html">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="contests.html">Contests</a>
+              <a class="nav-link" aria-current="page" href="contests.html">Contests</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="pod.html">Problem of the Day</a>
+              <a class="nav-link" aria-current="page" href="pod.html">Problem of the Day</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="team2025.html">Team 2025</a>
@@ -391,7 +391,7 @@
               <a class="nav-link" href="team2024.html">Team 2024</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="socp.html">SoCP 2021</a>
+              <a class="nav-link active" href="socp.html">SoCP 2021</a>
             </li>
           </ul>
         </div>
@@ -423,8 +423,8 @@
 
     <nav class="footer font-small text-white py-4">
       <div class="container-fluid text-center">
-        <p class="mb-0">Copyright © 2022 ANCC IIT Delhi</p>
-        <p class="small mt-2 text-muted">Building the future of competitive programming</p>
+        <p class="mb-0">Copyright © 2025 ANCC IIT Delhi</p>
+        <!-- <p class="small mt-2 text-muted">Building the future of competitive programming</p> -->
       </div>
     </nav>
 
@@ -533,7 +533,7 @@
         document.getElementById('loading').style.display = 'block';
         
         let Sheet = new XMLHttpRequest();
-        Sheet.open("GET", "https://docs.google.com/spreadsheets/d/1mCNoPTRvEBoSY1JAim4sokCINX199cirQ-p-sLeLdoY/export?format=tsv", false);
+        Sheet.open("GET", "https://docs.google.com/spreadsheets/d/1VF9nrrELGHD9uZEkocsI25Sx2OnOt7w6RviCoICN9To/export?format=tsv", false);
         Sheet.onload = () => {
           let values = Sheet.responseText;
           document.getElementById('loading').style.display = 'none';

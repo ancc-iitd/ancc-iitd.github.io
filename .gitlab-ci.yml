@@ -9,3 +9,4 @@ pages:
       - public
   only:
     - main  # or 'master' if that's your default branch
+  

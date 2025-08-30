@@ -1,38 +1,12 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <title>ANCC IITD - Contests</title>
-    
-    <!-- Google Fonts -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANCC IITD - Problem of the Day</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css " rel="stylesheet">
-    
-    <!-- Codeforces CSS-->
-    <style type="text/css">
-      .recent-actions{margin:1em;font-size:.9em}
-      .rated-user{font-family:'Inter', sans-serif;text-decoration:none!important;font-weight:600;display:inline-block;transition:all 0.3s ease}
-      .user-black{color:#6c757d!important;font-weight:500!important}
-      .user-legendary{color:#ff0000!important}
-      .user-legendary::first-letter{color:#000!important}
-      .legendary-user-first-letter{color:#000!important}
-      .user-red{color:#ff3030!important}
-      .user-fire{color:#ff0000!important}
-      .user-yellow{color:#ffd700!important}
-      .user-violet{color:#a855f7!important}
-      .user-orange{color:#f97316!important}
-      .user-blue{color:#3b82f6!important}
-      .user-cyan{color:#06b6d4!important}
-      .user-green{color:#10b981!important}
-      .user-gray{color:#6b7280!important}
-      .user-admin{color:#000!important}
-    </style>
-    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
       :root {
         --primary-color: #6366f1;
@@ -46,7 +20,7 @@
         --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
         --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        --gradient-green: linear-gradient(135deg, #10b981 0%, #059669 100%); /* New green gradient */
+        --gradient-green: linear-gradient(135deg, #10b981 0%, #059669 100%);
       }
 
       * {
@@ -63,7 +37,6 @@
         overflow-x: hidden;
       }
 
-      /* Animated background */
       .bg-animated {
         background: linear-gradient(-45deg, #0f172a, #1e293b, #334155, #475569);
         background-size: 400% 400%;
@@ -76,7 +49,6 @@
         100% { background-position: 0% 50%; }
       }
 
-      /* Floating particles */
       .particles {
         position: fixed;
         top: 0;
@@ -113,7 +85,6 @@
         }
       }
 
-      /* Navigation */
       .navbar {
         backdrop-filter: blur(10px);
         background: rgba(15, 23, 42, 0.9) !important;
@@ -145,7 +116,6 @@
         color: var(--primary-color) !important;
       }
 
-      /* Hero section */
       .hero-section {
         background: var(--gradient);
         border-radius: 0 0 50px 50px;
@@ -173,24 +143,17 @@
         z-index: 2;
       }
 
-      /* Contest Cards */
-      .contests-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-        gap: 2rem;
-        padding: 2rem 0;
-      }
-
-      .contest-card {
+      .problem-card {
         background: var(--card-bg);
         border-radius: 20px;
         overflow: hidden;
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         border: 1px solid rgba(99, 102, 241, 0.1);
         position: relative;
+        margin-bottom: 1.5rem;
       }
 
-      .contest-card::before {
+      .problem-card::before {
         content: '';
         position: absolute;
         top: 0;
@@ -202,87 +165,65 @@
         transition: transform 0.3s ease;
       }
 
-      .contest-card:hover::before {
+      .problem-card:hover::before {
         transform: scaleX(1);
       }
 
-      .contest-card:hover {
-        transform: translateY(-10px) scale(1.02);
+      .problem-card:hover {
+        transform: translateY(-5px) scale(1.01);
         background: var(--card-hover);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(99, 102, 241, 0.2);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(99, 102, 241, 0.2);
       }
 
-      .contest-header {
+      .problem-header {
+        padding: 1.2rem 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
         background: rgba(99, 102, 241, 0.05);
         border-bottom: 1px solid rgba(99, 102, 241, 0.1);
-        padding: 1.5rem 2rem;
-        text-align: center;
       }
 
-      .contest-name {
-        font-size: 1.25rem;
+      .problem-info {
+        flex: 1;
+        min-width: 200px;
+      }
+
+      .problem-name {
+        font-size: 1.2rem;
         font-weight: 700;
-        margin-bottom: 0;
+        margin-bottom: 0.3rem;
         color: var(--text-primary);
       }
 
-      .contest-details {
-        padding: 2rem;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1.5rem;
-      }
-
-      .detail-block {
-        text-align: center;
-        padding: 1rem;
-        background: rgba(99, 102, 241, 0.05);
-        border-radius: 12px;
-        transition: all 0.3s ease;
-      }
-
-      .detail-block:hover {
-        background: rgba(99, 102, 241, 0.1);
-        transform: translateY(-2px);
-      }
-
-      .detail-label {
-        font-size: 0.8rem;
+      .problem-date {
+        font-size: 0.85rem;
         color: var(--text-secondary);
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        margin-bottom: 0.5rem;
-        font-weight: 600;
       }
 
-      .detail-value {
-        font-size: 1rem;
-        color: var(--text-primary);
-        font-weight: 600;
-      }
-
-      .contest-actions {
-        padding: 1.5rem 2rem 2rem;
+      .problem-actions {
         display: flex;
-        gap: 1rem;
+        gap: 0.8rem;
         flex-wrap: wrap;
-        justify-content: center;
       }
 
       .action-btn {
         background: var(--gradient);
         color: white;
         border: none;
-        padding: 0.75rem 1.5rem;
-        border-radius: 25px;
+        padding: 0.6rem 1.2rem;
+        border-radius: 20px;
         font-weight: 600;
         text-decoration: none;
         display: inline-flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.4rem;
         transition: all 0.3s ease;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         cursor: pointer;
+        white-space: nowrap;
       }
 
       .action-btn:hover {
@@ -293,27 +234,23 @@
       }
 
       .action-btn.secondary {
-        background: var(--gradient-green); /* Changed to green gradient */
-        color: white; /* Changed text color to white for better contrast */
+        background: var(--gradient-green);
+        color: white;
       }
 
       .action-btn.secondary:hover {
-        background: linear-gradient(135deg, #0da271 0%, #047852 100%); /* Darker green on hover */
+        background: linear-gradient(135deg, #0da271 0%, #047852 100%);
         color: white;
-        box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4); /* Green shadow on hover */
+        box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
       }
 
-      .action-btn.status {
-        background: var(--gradient-2);
-        cursor: default;
+      .month-header {
+        margin: 2rem 0 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid var(--primary-color);
+        color: var(--text-primary);
       }
 
-      .action-btn.status:hover {
-        transform: none;
-        box-shadow: none;
-      }
-
-      /* Social links */
       .social-link {
         display: inline-flex;
         align-items: center;
@@ -364,40 +301,32 @@
         color: white;
       }
 
-      .google-link {
-        background: linear-gradient(135deg, #5865f2, #7289da);
+      .email-link {
+        background: linear-gradient(135deg, #77aacc, #90b2dd);
         color: white;
       }
 
-      /* Loading */
       #loading {
         text-align: center;
         padding: 4rem 0;
       }
 
-      /* Responsive design */
       @media (max-width: 768px) {
-        .contests-container {
-          grid-template-columns: 1fr;
-          gap: 1.5rem;
-        }
-        
         .hero-title {
           font-size: 2.5rem !important;
         }
         
-        .contest-details {
-          grid-template-columns: 1fr;
-          gap: 1rem;
+        .problem-header {
+          flex-direction: column;
+          align-items: flex-start;
         }
         
-        .contest-actions {
-          flex-direction: column;
-          align-items: center;
+        .problem-actions {
+          width: 100%;
+          justify-content: center;
         }
       }
 
-      /* Animations */
       .fade-in {
         animation: fadeIn 0.8s ease forwards;
       }
@@ -412,32 +341,14 @@
           transform: translateY(0);
         }
       }
-
-      .stagger-animation .contest-card {
-        opacity: 0;
-        animation: staggerIn 0.6s ease forwards;
-      }
-
-      @keyframes staggerIn {
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      /* Hide template */
-      .is-template {
-        display: none !important;
-      }
     </style>
-  </head>
-  <body class="bg-animated">
+</head>
+<body class="bg-animated">
     <!-- Floating particles -->
     <div class="particles" id="particles"></div>
 
     <nav class="navbar navbar-expand-sm navbar-dark">
       <div class="container-fluid">
-        <!-- <a class="navbar-brand h1 my-0" href="index.html">ANCC</a> -->
         <a class="navbar-brand my-0" href="index.html">
           <img src="https://raw.githubusercontent.com/Yashdeep-Singh-git/ancc-iitd.github.io/main/images/transparent-logo.png" 
                alt="ANCC Logo" height="40">
@@ -451,10 +362,10 @@
               <a class="nav-link" href="index.html">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="contests.html">Contests</a>
+              <a class="nav-link" href="contests.html">Contests</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="pod.html">Problem of the Day</a>
+              <a class="nav-link active" aria-current="page" href="pod.html">Problem of the Day</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="team2025.html">Team 2025</a>
@@ -471,8 +382,8 @@
     </nav>
 
     <div class="hero-section px-3 pt-5 pb-4 mb-3 text-center text-white">
-      <h1 class="hero-title display-2">Algorithms and Coding Club<br>IIT Delhi</h1>
-      <p class="lead mt-3">Learn. Code. Win.</p>
+      <h1 class="hero-title display-2">Problem of the Day</h1>
+      <p class="lead mt-3">Daily coding challenges to sharpen your skills</p>
       <hr class="my-3 mx-5">
       <div class="d-flex justify-content-center mt-4">
         <a target="_blank" class="social-link youtube-link m-2" href="https://www.youtube.com/channel/UC7XoOZ3Ip7i8-78jYLjAC2Q">
@@ -484,33 +395,30 @@
         <a target="_blank" class="social-link facebook-link m-2" href="https://www.facebook.com/anciitd/">
           <i class="fab fa-facebook-f"></i>
         </a>
-        <a target="_blank" class="social-link google-link m-2" href="https://mail.google.com/mail/?view=cm&fs=1&to=ancclub@admin.iitd.ac.in">
+        <a target="_blank" class="social-link email-link m-2" href="mailto:ancclub@admin.iitd.ac.in">
           <i class="fas fa-envelope"></i>
         </a>
       </div>
     </div>
 
     <main class="container my-4">
-      <h1 id="contestsH" class="text-center text-white mb-5" style="display: none;">Contests organized by ANCC</h1>
-      
       <div id="loading" class="text-center text-white py-5">
         <div class="spinner-border text-primary mb-3" role="status">
           <span class="visually-hidden">Loading...</span>
         </div>
-        <p>Loading contests...</p>
+        <p>Loading problems...</p>
       </div>
       
-      <div id="contests" class="contests-container"></div>
+      <div id="problems-container"></div>
     </main>
 
     <nav class="footer font-small text-white py-4" style="background: rgba(15, 23, 42, 0.9); border-top: 1px solid rgba(99, 102, 241, 0.2); backdrop-filter: blur(10px); margin-top: 4rem;">
       <div class="container-fluid text-center">
         <p class="mb-0">Copyright © 2025 ANCC IIT Delhi</p>
-        <!-- <p class="small mt-2 text-muted">Building the future of competitive programming</p> -->
       </div>
     </nav>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
     
     <script type="text/javascript">
       // Create floating particles
@@ -528,100 +436,106 @@
         }
       }
 
-      function generateContest(detailsMap) {
-        let card = "<div class='contest-card fade-in'>";
+      function generateProblemCard(problem) {
+        const dateObj = new Date(problem.Date);
+        const formattedDate = dateObj.toLocaleDateString('en-US', { 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric' 
+        });
         
-        // Contest header with name
-        card += "<div class='contest-header'>";
-        card += "<h5 class='contest-name'>" + detailsMap['Name'] + "</h5>";
-        card += "</div>";
+        return `
+          <div class="problem-card fade-in">
+            <div class="problem-header">
+              <div class="problem-info">
+                <h5 class="problem-name">${problem.Name}</h5>
+                <div class="problem-date">${formattedDate}</div>
+              </div>
+              <div class="problem-actions">
+                <a href="${problem.ProblemLink}" target="_blank" class="action-btn">
+                  <i class="fas fa-external-link-alt"></i> Problem
+                </a>
+                ${problem.SolutionLink ? `
+                  <a href="${problem.SolutionLink}" target="_blank" class="action-btn secondary">
+                    <i class="fas fa-lightbulb"></i> Solution
+                  </a>
+                ` : ''}
+              </div>
+            </div>
+          </div>
+        `;
+      }
+      
+      function loadProblems() {
+        // Replace with your actual Google Sheets URL
+        const sheetUrl = "https://docs.google.com/spreadsheets/d/11WJcJriYPu_jhhsVb1ov1kaajF-wn1cW8LwaVXdRHXA/export?format=tsv";
         
-        // Contest details grid
-        card += "<div class='contest-details'>";
-        
-        // Start date and time
-        card += "<div class='detail-block'>";
-        card += "<div class='detail-label'>Starts on</div>";
-        card += "<div class='detail-value'>" + detailsMap['Start Date'] + "</div>";
-        card += "<div class='detail-value' style='font-size: 0.9rem; margin-top: 0.25rem;'>" + detailsMap['Start Time'] + "</div>";
-        card += "</div>";
-        
-        // Duration
-        card += "<div class='detail-block'>";
-        card += "<div class='detail-label'>Duration</div>";
-        card += "<div class='detail-value'>" + detailsMap['Duration'] + "</div>";
-        card += "</div>";
-        
-        card += "</div>";
-        
-        // Actions section
-        card += "<div class='contest-actions'>";
-        
-        // Editorial button
-        if (detailsMap['Editorial Link'] && detailsMap['Editorial Link'] != "") {
-          card += "<a href='" + detailsMap['Editorial Link'] + "' target='_blank' class='action-btn'>";
-          card += "<i class='fas fa-book'></i> Editorial</a>";
-        } 
-        
-        // Virtual participation button
-        if (detailsMap['Virtual Participation Link'] && detailsMap['Virtual Participation Link'] != "") {
-          card += "<a href='" + detailsMap['Virtual Participation Link'] + "' target='_blank' class='action-btn secondary'>";
-          card += "<i class='fas fa-play'></i> Virtual Participate</a>";
-        }
-        
-        card += "</div>";
-        card += "</div>";
-        
-        return card;
-      } 
-
-      function loadContests() {
-        let Sheet = new XMLHttpRequest();
-        Sheet.open("GET","https://docs.google.com/spreadsheets/d/1Zz7puaZ_nfG6DwI5tk-Vn2VdkZTXXz-2tgqieJmhs1M/export?format=tsv",true);
-
-        Sheet.onload = () => {
-          let values = Sheet.responseText;
-          document.getElementById('loading').style.display = 'none';
-          document.getElementById('contestsH').style = "display:block;";
-          
-          let index = [];
-          let firstRow = true;
-          let rows = values.split('\r');
-          let contestsHtml = "";
-          
-          rows.forEach(r => {
-            cols = r.split('\t');
-            if(firstRow) {
-              cols.forEach(col => index.push(col));
-            }
-            else {
-              let detailsMap = {};
-              for(let i = 0; i < cols.length; i++) {
-                detailsMap[index[i]] = cols[i];
+        fetch(sheetUrl)
+          .then(response => response.text())
+          .then(data => {
+            document.getElementById('loading').style.display = 'none';
+            
+            const rows = data.split('\r\n');
+            const headers = rows[0].split('\t');
+            const problems = [];
+            
+            for (let i = 1; i < rows.length; i++) {
+              const cells = rows[i].split('\t');
+              if (cells.length >= 4) {
+                const problem = {};
+                for (let j = 0; j < headers.length; j++) {
+                  problem[headers[j]] = cells[j];
+                }
+                problems.push(problem);
               }
-              contestsHtml += generateContest(detailsMap);
             }
-            firstRow = false;
+            
+            // Group problems by month
+            const problemsByMonth = {};
+            problems.forEach(problem => {
+              if (problem.Date) {
+                const date = new Date(problem.Date);
+                const monthYear = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+                
+                if (!problemsByMonth[monthYear]) {
+                  problemsByMonth[monthYear] = [];
+                }
+                
+                problemsByMonth[monthYear].push(problem);
+              }
+            });
+            
+            // Sort months chronologically
+            const sortedMonths = Object.keys(problemsByMonth).sort((a, b) => {
+              return new Date(b) - new Date(a);
+            });
+            
+            // Generate HTML
+            let problemsHtml = '';
+            sortedMonths.forEach(month => {
+              problemsHtml += `<h2 class="month-header">${month}</h2>`;
+              problemsByMonth[month].forEach(problem => {
+                problemsHtml += generateProblemCard(problem);
+              });
+            });
+            
+            document.getElementById('problems-container').innerHTML = problemsHtml;
+          })
+          .catch(error => {
+            document.getElementById('loading').innerHTML = `
+              <div class="text-danger">
+                <p>Error loading problems. Please try again later.</p>
+                <p>${error.message}</p>
+              </div>
+            `;
           });
-          
-          document.getElementById('contests').innerHTML = contestsHtml;
-          document.getElementById('contests').classList.add('stagger-animation');
-          
-          // Stagger the card animations
-          const cards = document.querySelectorAll('.contest-card');
-          cards.forEach((card, index) => {
-            card.style.animationDelay = (index * 0.1) + 's';
-            card.style.transform = 'translateY(50px)';
-          });
-        }
-        Sheet.send(null);
       }
 
       // Initialize everything
       document.addEventListener('DOMContentLoaded', function() {
         createParticles();
-        loadContests();
+        loadProblems();
       });
     </script>
-  </body>
+</body>
 </html>
