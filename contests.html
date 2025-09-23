@@ -46,7 +46,8 @@
         --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
         --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        --gradient-green: linear-gradient(135deg, #10b981 0%, #059669 100%); /* New green gradient */
+        --gradient-green: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        --gradient-orange: linear-gradient(135deg, #f97316 0%, #ea580c 100%); /* New orange gradient for registration */
       }
 
       * {
@@ -293,14 +294,25 @@
       }
 
       .action-btn.secondary {
-        background: var(--gradient-green); /* Changed to green gradient */
-        color: white; /* Changed text color to white for better contrast */
+        background: var(--gradient-green);
+        color: white;
       }
 
       .action-btn.secondary:hover {
-        background: linear-gradient(135deg, #0da271 0%, #047852 100%); /* Darker green on hover */
+        background: linear-gradient(135deg, #0da271 0%, #047852 100%);
         color: white;
-        box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4); /* Green shadow on hover */
+        box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+      }
+
+      .action-btn.tertiary {
+        background: var(--gradient-orange);
+        color: white;
+      }
+
+      .action-btn.tertiary:hover {
+        background: linear-gradient(135deg, #e05c0e 0%, #c2410c 100%);
+        color: white;
+        box-shadow: 0 5px 15px rgba(249, 115, 22, 0.4);
       }
 
       .action-btn.status {
@@ -556,6 +568,12 @@
         
         // Actions section
         card += "<div class='contest-actions'>";
+        
+        // Registration button (new addition)
+        if (detailsMap['Registration Link'] && detailsMap['Registration Link'] != "") {
+          card += "<a href='" + detailsMap['Registration Link'] + "' target='_blank' class='action-btn tertiary'>";
+          card += "<i class='fas fa-user-plus'></i> Register</a>";
+        }
         
         // Editorial button
         if (detailsMap['Editorial Link'] && detailsMap['Editorial Link'] != "") {
