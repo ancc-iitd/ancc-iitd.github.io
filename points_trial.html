@@ -1,0 +1,716 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <title>ANCC IITD - CAIC Points</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+      :root {
+        --primary-color: #6366f1;
+        --secondary-color: #8b5cf6;
+        --accent-color: #f59e0b;
+        --dark-bg: #0f172a;
+        --card-bg: #1e293b;
+        --card-hover: #334155;
+        --text-primary: #f8fafc;
+        --text-secondary: #cbd5e1;
+        --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        --gradient-green: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Inter', sans-serif;
+        background: var(--dark-bg);
+        color: var(--text-primary);
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      /* Animated background */
+      .bg-animated {
+        background: linear-gradient(-45deg, #0f172a, #1e293b, #334155, #475569);
+        background-size: 400% 400%;
+        animation: gradientShift 15s ease infinite;
+      }
+
+      @keyframes gradientShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+
+      /* Floating particles */
+      .particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        pointer-events: none;
+      }
+
+      .particle {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: rgba(99, 102, 241, 0.5);
+        border-radius: 50%;
+        animation: float 20s infinite linear;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(100vh) rotate(0deg);
+          opacity: 0;
+        }
+        10% {
+          opacity: 1;
+        }
+        90% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-100vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      /* Navigation */
+      .navbar {
+        backdrop-filter: blur(10px);
+        background: rgba(15, 23, 42, 0.9) !important;
+        border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+        transition: all 0.3s ease;
+      }
+
+      .navbar-brand {
+        font-weight: 700;
+        font-size: 1.5rem;
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .nav-link {
+        font-weight: 500;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .nav-link:hover {
+        color: var(--primary-color) !important;
+        transform: translateY(-2px);
+      }
+
+      .nav-link.active {
+        color: var(--primary-color) !important;
+      }
+
+      /* Hero section */
+      .hero-section {
+        background: var(--gradient);
+        border-radius: 0 0 50px 50px;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 2rem;
+      }
+
+      .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+        opacity: 0.1;
+      }
+
+      .hero-title {
+        font-weight: 800;
+        letter-spacing: -0.025em;
+        text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        position: relative;
+        z-index: 2;
+      }
+
+      /* CAIC Info Cards */
+      .info-card {
+        background: var(--card-bg);
+        border-radius: 15px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        border: 1px solid rgba(99, 102, 241, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .info-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .info-card h3 {
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+        font-weight: 600;
+      }
+
+      /* Event Cards */
+      .event-card {
+        background: var(--card-bg);
+        border-radius: 15px;
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+        border: 1px solid rgba(99, 102, 241, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .event-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .event-header {
+        background: rgba(99, 102, 241, 0.05);
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+      }
+
+      .event-name {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+      }
+
+      .event-details {
+        padding: 1.5rem;
+      }
+
+      .points-badge {
+        background: var(--gradient);
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+
+      .hostel-points-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+      }
+
+      .hostel-points-table th,
+      .hostel-points-table td {
+        padding: 0.75rem;
+        text-align: left;
+        border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+      }
+
+      .hostel-points-table th {
+        color: var(--text-secondary);
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 0.05em;
+      }
+
+      .hostel-points-table tr:last-child td {
+        border-bottom: none;
+      }
+
+      .hostel-points-table tr:hover td {
+        background: rgba(99, 102, 241, 0.05);
+      }
+
+      /* Leaderboard */
+      .leaderboard-card {
+        background: var(--card-bg);
+        border-radius: 15px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        border: 1px solid rgba(99, 102, 241, 0.1);
+      }
+
+      .leaderboard-item {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .leaderboard-item:last-child {
+        border-bottom: none;
+      }
+
+      .leaderboard-item:hover {
+        background: rgba(99, 102, 241, 0.05);
+        border-radius: 10px;
+      }
+
+      .rank {
+        font-weight: 700;
+        font-size: 1.25rem;
+        width: 40px;
+        text-align: center;
+        margin-right: 1rem;
+      }
+
+      .rank-1 { color: #ffd700; }
+      .rank-2 { color: #c0c0c0; }
+      .rank-3 { color: #cd7f32; }
+
+      .hostel-name {
+        flex-grow: 1;
+        font-weight: 600;
+      }
+
+      .hostel-points {
+        font-weight: 700;
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* Loading */
+      #loading {
+        text-align: center;
+        padding: 4rem 0;
+      }
+
+      /* Tabs */
+      .nav-tabs-custom {
+        border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+        margin-bottom: 2rem;
+      }
+
+      .nav-tabs-custom .nav-link {
+        color: var(--text-secondary);
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 10px 10px 0 0;
+        margin-right: 0.5rem;
+        transition: all 0.3s ease;
+      }
+
+      .nav-tabs-custom .nav-link.active {
+        color: var(--primary-color);
+        background: rgba(99, 102, 241, 0.1);
+        border-bottom: 2px solid var(--primary-color);
+      }
+
+      .nav-tabs-custom .nav-link:hover {
+        color: var(--primary-color);
+        background: rgba(99, 102, 241, 0.05);
+      }
+
+      /* Error message */
+      .error-message {
+        background: rgba(239, 68, 68, 0.1);
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        border-radius: 10px;
+        padding: 1.5rem;
+        text-align: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .error-message i {
+        font-size: 2rem;
+        color: #ef4444;
+        margin-bottom: 1rem;
+      }
+
+      /* Responsive design */
+      @media (max-width: 768px) {
+        .hero-title {
+          font-size: 2rem !important;
+        }
+        
+        .event-details {
+          padding: 1rem;
+        }
+        
+        .nav-tabs-custom .nav-link {
+          padding: 0.5rem 1rem;
+          font-size: 0.9rem;
+        }
+      }
+
+      /* Animations */
+      .fade-in {
+        animation: fadeIn 0.8s ease forwards;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-animated">
+    <!-- Floating particles -->
+    <div class="particles" id="particles"></div>
+
+    <nav class="navbar navbar-expand-sm navbar-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand my-0" href="index.html">
+          <img src="https://raw.githubusercontent.com/Yashdeep-Singh-git/ancc-iitd.github.io/main/images/transparent-logo.png" 
+               alt="ANCC Logo" height="40">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-sm-0">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contests.html">Contests</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="pod.html">Problem of the Day</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="caic-points.html">CAIC Points</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="team2025.html">Team 2025</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="team2024.html">Team 2024</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="socp.html">SoCP 2021</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="hero-section px-3 pt-4 pb-3 mb-3 text-center text-white">
+      <h1 class="hero-title display-4">CAIC Points</h1>
+      <p class="lead mt-2">Tracks hostel performance in ANCC events</p>
+    </div>
+
+    <main class="container my-4">
+      <!-- CAIC Information -->
+      <div class="info-card fade-in">
+        <h3><i class="fas fa-trophy me-2"></i>About CAIC Trophy</h3>
+        <p>The CAIC Trophy is awarded at the end of the year to the hostel which earns the highest number of CAIC points through participation in events organized by all CAIC clubs.</p>
+        <p>Each club receives 30 points annually, which can be distributed among their competitions throughout the year as they choose.</p>
+      </div>
+
+      <!-- Tabs for different views -->
+      <ul class="nav nav-tabs nav-tabs-custom" id="caicTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="events-tab" data-bs-toggle="tab" data-bs-target="#events" type="button" role="tab" aria-controls="events" aria-selected="true">
+            <i class="fas fa-calendar-alt me-2"></i>Events & Points
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="leaderboard-tab" data-bs-toggle="tab" data-bs-target="#leaderboard" type="button" role="tab" aria-controls="leaderboard" aria-selected="false">
+            <i class="fas fa-chart-line me-2"></i>Hostel Leaderboard
+          </button>
+        </li>
+      </ul>
+
+      <div class="tab-content" id="caicTabContent">
+        <!-- Events & Points Tab -->
+        <div class="tab-pane fade show active" id="events" role="tabpanel" aria-labelledby="events-tab">
+          <div id="events-loading" class="text-center text-white py-5">
+            <div class="spinner-border text-primary mb-3" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p>Loading events data...</p>
+          </div>
+          
+          <div id="events-container"></div>
+          <div id="events-error" class="error-message" style="display: none;">
+            <i class="fas fa-exclamation-triangle"></i>
+            <h4>Error Loading Events Data</h4>
+            <p>Unable to load events data from the spreadsheet. Please try again later.</p>
+          </div>
+        </div>
+
+        <!-- Leaderboard Tab -->
+        <div class="tab-pane fade" id="leaderboard" role="tabpanel" aria-labelledby="leaderboard-tab">
+          <div id="leaderboard-loading" class="text-center text-white py-5">
+            <div class="spinner-border text-primary mb-3" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p>Loading leaderboard...</p>
+          </div>
+          
+          <div id="leaderboard-container"></div>
+          <div id="leaderboard-error" class="error-message" style="display: none;">
+            <i class="fas fa-exclamation-triangle"></i>
+            <h4>Error Loading Leaderboard</h4>
+            <p>Unable to load leaderboard data from the spreadsheet. Please try again later.</p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer font-small text-white py-4" style="background: rgba(15, 23, 42, 0.9); border-top: 1px solid rgba(99, 102, 241, 0.2); backdrop-filter: blur(10px); margin-top: 4rem;">
+      <div class="container-fluid text-center">
+        <p class="mb-0">Copyright © 2025 ANCC IIT Delhi</p>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    
+    <script type="text/javascript">
+      // Create floating particles
+      function createParticles() {
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = 50;
+        
+        for (let i = 0; i < particleCount; i++) {
+          const particle = document.createElement('div');
+          particle.className = 'particle';
+          particle.style.left = Math.random() * 100 + '%';
+          particle.style.animationDelay = Math.random() * 20 + 's';
+          particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+          particlesContainer.appendChild(particle);
+        }
+      }
+
+      // Spreadsheet URLs (Replace these with your actual Google Sheets URLs)
+      const EVENTS_SPREADSHEET_URL = "https://docs.google.com/spreadsheets/d/11WJcJriYPu_jhhsVb1ov1kaajF-wn1cW8LwaVXdRHXA/export?format=tsv&gid=1509396646";
+    //   const POINTS_SPREADSHEET_URL = "https://docs.google.com/spreadsheets/d/YOUR_POINTS_SHEET_ID/export?format=tsv";
+
+      // Function to fetch data from spreadsheet
+      function fetchSpreadsheetData(url, callback) {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", url, true);
+        
+        xhr.onload = function() {
+          if (xhr.status === 200) {
+            callback(null, xhr.responseText);
+          } else {
+            callback(new Error(`Failed to load data: ${xhr.status}`));
+          }
+        };
+        
+        xhr.onerror = function() {
+          callback(new Error("Network error occurred"));
+        };
+        
+        xhr.send();
+      }
+
+      // Function to parse TSV data
+      function parseTSVData(tsvData) {
+        const rows = tsvData.trim().split('\n');
+        if (rows.length < 2) return []; // Not enough data
+        
+        const headers = rows[0].split('\t');
+        const data = [];
+        
+        for (let i = 1; i < rows.length; i++) {
+          const values = rows[i].split('\t');
+          if (values.length === headers.length) {
+            const rowData = {};
+            headers.forEach((header, index) => {
+              rowData[header.trim()] = values[index] ? values[index].trim() : '';
+            });
+            data.push(rowData);
+          }
+        }
+        
+        return data;
+      }
+
+      // Function to process events data
+      function processEventsData(eventsData) {
+        // Group events by event name/ID
+        const eventsMap = {};
+        
+        eventsData.forEach(row => {
+          const eventName = row['Event Name'] || 'Unknown Event';
+          const hostel = row['Hostel'] || 'Unknown Hostel';
+          const points = parseInt(row['Points'] || '0');
+          
+          if (!eventsMap[eventName]) {
+            eventsMap[eventName] = {
+              name: eventName,
+              date: row['Date'] || 'Unknown Date',
+              totalPoints: 0,
+              pointDistribution: []
+            };
+          }
+          
+          // Add points distribution
+          eventsMap[eventName].pointDistribution.push({
+            hostel: hostel,
+            points: points
+          });
+          
+          // Update total points
+          eventsMap[eventName].totalPoints += points;
+        });
+        
+        // Convert to array
+        return Object.values(eventsMap);
+      }
+
+      // Function to generate event cards
+      function generateEventCards(events) {
+        if (events.length === 0) {
+          return '<div class="text-center text-muted py-5"><p>No events data available.</p></div>';
+        }
+        
+        let html = '';
+        
+        events.forEach(event => {
+          html += `
+            <div class="event-card fade-in">
+              <div class="event-header">
+                <div class="d-flex justify-content-between align-items-center">
+                  <h4 class="event-name">${event.name}</h4>
+                  <span class="points-badge">${event.totalPoints} Points</span>
+                </div>
+                <div class="text-muted">${event.date}</div>
+              </div>
+              <div class="event-details">
+                <h5>Points Distribution</h5>
+                <table class="hostel-points-table">
+                  <thead>
+                    <tr>
+                      <th>Hostel</th>
+                      <th>Points</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+          `;
+          
+          event.pointDistribution.forEach(dist => {
+            html += `
+              <tr>
+                <td>${dist.hostel}</td>
+                <td>${dist.points}</td>
+              </tr>
+            `;
+          });
+          
+          html += `
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          `;
+        });
+        
+        return html;
+      }
+
+      // Function to generate leaderboard
+      function generateLeaderboard(events) {
+        // Calculate total points per hostel
+        const hostelPoints = {};
+        
+        events.forEach(event => {
+          event.pointDistribution.forEach(dist => {
+            if (!hostelPoints[dist.hostel]) {
+              hostelPoints[dist.hostel] = 0;
+            }
+            hostelPoints[dist.hostel] += dist.points;
+          });
+        });
+        
+        // Convert to array and sort
+        const leaderboard = Object.entries(hostelPoints)
+          .map(([hostel, points]) => ({ hostel, points }))
+          .sort((a, b) => b.points - a.points);
+        
+        if (leaderboard.length === 0) {
+          return '<div class="text-center text-muted py-5"><p>No leaderboard data available.</p></div>';
+        }
+        
+        let html = '<div class="leaderboard-card">';
+        html += '<h3 class="mb-4"><i class="fas fa-trophy me-2"></i>Hostel Leaderboard</h3>';
+        
+        leaderboard.forEach((item, index) => {
+          const rankClass = index === 0 ? 'rank-1' : index === 1 ? 'rank-2' : index === 2 ? 'rank-3' : '';
+          
+          html += `
+            <div class="leaderboard-item">
+              <div class="rank ${rankClass}">${index + 1}</div>
+              <div class="hostel-name">${item.hostel}</div>
+              <div class="hostel-points">${item.points} points</div>
+            </div>
+          `;
+        });
+        
+        html += '</div>';
+        return html;
+      }
+
+      // Load data from spreadsheet
+      function loadCAICData() {
+        // Fetch events data
+        fetchSpreadsheetData(EVENTS_SPREADSHEET_URL, function(err, eventsData) {
+          if (err) {
+            console.error("Error loading events data:", err);
+            document.getElementById('events-loading').style.display = 'none';
+            document.getElementById('events-error').style.display = 'block';
+            return;
+          }
+          
+          // Parse and process events data
+          const parsedEventsData = parseTSVData(eventsData);
+          const processedEvents = processEventsData(parsedEventsData);
+          
+          // Generate events content
+          document.getElementById('events-loading').style.display = 'none';
+          document.getElementById('events-container').innerHTML = generateEventCards(processedEvents);
+          
+          // Add fade-in animations
+          const eventCards = document.querySelectorAll('.event-card');
+          eventCards.forEach((card, index) => {
+            card.style.animationDelay = (index * 0.1) + 's';
+          });
+          
+          // Generate leaderboard
+          document.getElementById('leaderboard-loading').style.display = 'none';
+          document.getElementById('leaderboard-container').innerHTML = generateLeaderboard(processedEvents);
+        });
+      }
+
+      // Initialize everything
+      document.addEventListener('DOMContentLoaded', function() {
+        createParticles();
+        loadCAICData();
+      });
+    </script>
+  </body>
+</html>
