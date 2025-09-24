@@ -174,25 +174,38 @@
         font-weight: 600;
       }
 
-      /* Event Cards */
+      /* Event Cards with Accordion */
       .event-card {
         background: var(--card-bg);
         border-radius: 15px;
         overflow: hidden;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem;
         border: 1px solid rgba(99, 102, 241, 0.1);
         transition: all 0.3s ease;
       }
 
       .event-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
       }
 
       .event-header {
         background: rgba(99, 102, 241, 0.05);
-        padding: 1rem 1.5rem;
+        padding: 1.25rem 1.5rem;
         border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.3s ease;
+      }
+
+      .event-header:hover {
+        background: rgba(99, 102, 241, 0.08);
+      }
+
+      .event-header.active {
+        background: rgba(99, 102, 241, 0.1);
       }
 
       .event-name {
@@ -202,7 +215,15 @@
       }
 
       .event-details {
+        padding: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: all 0.4s ease;
+      }
+
+      .event-details.active {
         padding: 1.5rem;
+        max-height: 1000px;
       }
 
       .points-badge {
@@ -212,6 +233,16 @@
         border-radius: 20px;
         font-size: 0.9rem;
         font-weight: 600;
+      }
+
+      .expand-icon {
+        transition: transform 0.3s ease;
+        color: var(--text-secondary);
+      }
+
+      .event-header.active .expand-icon {
+        transform: rotate(180deg);
+        color: var(--primary-color);
       }
 
       .hostel-points-table {
@@ -348,13 +379,17 @@
           font-size: 2rem !important;
         }
         
-        .event-details {
+        .event-details.active {
           padding: 1rem;
         }
         
         .nav-tabs-custom .nav-link {
           padding: 0.5rem 1rem;
           font-size: 0.9rem;
+        }
+        
+        .event-header {
+          padding: 1rem;
         }
       }
 
@@ -506,7 +541,6 @@
 
       // Spreadsheet URLs (Replace these with your actual Google Sheets URLs)
       const EVENTS_SPREADSHEET_URL = "https://docs.google.com/spreadsheets/d/11WJcJriYPu_jhhsVb1ov1kaajF-wn1cW8LwaVXdRHXA/export?format=tsv&gid=1509396646";
-    //   const POINTS_SPREADSHEET_URL = "https://docs.google.com/spreadsheets/d/YOUR_POINTS_SHEET_ID/export?format=tsv";
 
       // Function to fetch data from spreadsheet
       function fetchSpreadsheetData(url, callback) {
@@ -583,7 +617,7 @@
         return Object.values(eventsMap);
       }
 
-      // Function to generate event cards
+      // Function to generate event cards with accordion
       function generateEventCards(events) {
         if (events.length === 0) {
           return '<div class="text-center text-muted py-5"><p>No events data available.</p></div>';
@@ -591,17 +625,20 @@
         
         let html = '';
         
-        events.forEach(event => {
+        events.forEach((event, index) => {
           html += `
             <div class="event-card fade-in">
-              <div class="event-header">
-                <div class="d-flex justify-content-between align-items-center">
+              <div class="event-header" data-event-index="${index}">
+                <div>
                   <h4 class="event-name">${event.name}</h4>
-                  <span class="points-badge">${event.totalPoints} Points</span>
+                  <div class="text-muted">${event.date}</div>
                 </div>
-                <div class="text-muted">${event.date}</div>
+                <div class="d-flex align-items-center">
+                  <span class="points-badge me-3">${event.totalPoints} Points</span>
+                  <i class="fas fa-chevron-down expand-icon"></i>
+                </div>
               </div>
-              <div class="event-details">
+              <div class="event-details" id="event-details-${index}">
                 <h5>Points Distribution</h5>
                 <table class="hostel-points-table">
                   <thead>
@@ -675,6 +712,24 @@
         return html;
       }
 
+      // Function to handle accordion toggle
+      function setupEventAccordions() {
+        const eventHeaders = document.querySelectorAll('.event-header');
+        
+        eventHeaders.forEach(header => {
+          header.addEventListener('click', function() {
+            const eventIndex = this.getAttribute('data-event-index');
+            const eventDetails = document.getElementById(`event-details-${eventIndex}`);
+            
+            // Toggle active class on header
+            this.classList.toggle('active');
+            
+            // Toggle active class on details
+            eventDetails.classList.toggle('active');
+          });
+        });
+      }
+
       // Load data from spreadsheet
       function loadCAICData() {
         // Fetch events data
@@ -693,6 +748,9 @@
           // Generate events content
           document.getElementById('events-loading').style.display = 'none';
           document.getElementById('events-container').innerHTML = generateEventCards(processedEvents);
+          
+          // Set up accordion functionality
+          setupEventAccordions();
           
           // Add fade-in animations
           const eventCards = document.querySelectorAll('.event-card');
