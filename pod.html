@@ -617,6 +617,13 @@
               return new Date(b) - new Date(a);
             });
             
+            // Reverse the order of problems within each month (latest first)
+            sortedMonths.forEach(month => {
+              problemsByMonth[month].sort((a, b) => {
+                return new Date(b.Date) - new Date(a.Date);
+              });
+            });
+            
             // Generate HTML with dropdowns
             let problemsHtml = '';
             sortedMonths.forEach(month => {
