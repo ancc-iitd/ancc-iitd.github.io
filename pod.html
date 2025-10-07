@@ -150,7 +150,7 @@
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         border: 1px solid rgba(99, 102, 241, 0.1);
         position: relative;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem;
       }
 
       .problem-card::before {
@@ -244,11 +244,73 @@
         box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
       }
 
-      .month-header {
+      /* Month Dropdown Styles */
+      .month-dropdown {
         margin: 2rem 0 1rem;
-        padding-bottom: 0.5rem;
-        border-bottom: 2px solid var(--primary-color);
+        border-radius: 15px;
+        overflow: hidden;
+        background: var(--card-bg);
+        border: 1px solid rgba(99, 102, 241, 0.2);
+        transition: all 0.3s ease;
+      }
+
+      .month-dropdown:hover {
+        border-color: rgba(99, 102, 241, 0.4);
+      }
+
+      .month-header {
+        padding: 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        background: rgba(99, 102, 241, 0.1);
+        transition: all 0.3s ease;
+        user-select: none;
+      }
+
+      .month-header:hover {
+        background: rgba(99, 102, 241, 0.15);
+      }
+
+      .month-header h2 {
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: 700;
         color: var(--text-primary);
+      }
+
+      .month-toggle {
+        font-size: 1.2rem;
+        transition: transform 0.3s ease;
+        color: var(--primary-color);
+      }
+
+      .month-toggle.rotated {
+        transform: rotate(180deg);
+      }
+
+      .month-content {
+        padding: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: all 0.4s ease;
+        background: rgba(15, 23, 42, 0.5);
+      }
+
+      .month-content.show {
+        max-height: 5000px;
+        padding: 1.5rem;
+      }
+
+      .problems-count {
+        background: var(--gradient);
+        color: white;
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-left: 1rem;
       }
 
       .social-link {
@@ -324,6 +386,14 @@
         .problem-actions {
           width: 100%;
           justify-content: center;
+        }
+
+        .month-header {
+          padding: 1rem;
+        }
+
+        .month-header h2 {
+          font-size: 1.3rem;
         }
       }
 
@@ -468,6 +538,40 @@
           </div>
         `;
       }
+
+      function toggleMonthDropdown(header) {
+        const content = header.nextElementSibling;
+        const toggle = header.querySelector('.month-toggle');
+        
+        if (content.classList.contains('show')) {
+          content.classList.remove('show');
+          toggle.classList.remove('rotated');
+        } else {
+          content.classList.add('show');
+          toggle.classList.add('rotated');
+        }
+      }
+
+      function generateMonthDropdown(month, problems) {
+        const problemsCount = problems.length;
+        
+        return `
+          <div class="month-dropdown">
+            <div class="month-header" onclick="toggleMonthDropdown(this)">
+              <h2>
+                ${month}
+                <span class="problems-count">${problemsCount} problem${problemsCount !== 1 ? 's' : ''}</span>
+              </h2>
+              <div class="month-toggle">
+                <i class="fas fa-chevron-down"></i>
+              </div>
+            </div>
+            <div class="month-content">
+              ${problems.map(problem => generateProblemCard(problem)).join('')}
+            </div>
+          </div>
+        `;
+      }
       
       function loadProblems() {
         // Replace with your actual Google Sheets URL
@@ -508,21 +612,25 @@
               }
             });
             
-            // Sort months chronologically
+            // Sort months chronologically (newest first)
             const sortedMonths = Object.keys(problemsByMonth).sort((a, b) => {
               return new Date(b) - new Date(a);
             });
             
-            // Generate HTML
+            // Generate HTML with dropdowns
             let problemsHtml = '';
             sortedMonths.forEach(month => {
-              problemsHtml += `<h2 class="month-header">${month}</h2>`;
-              problemsByMonth[month].forEach(problem => {
-                problemsHtml += generateProblemCard(problem);
-              });
+              problemsHtml += generateMonthDropdown(month, problemsByMonth[month]);
             });
             
             document.getElementById('problems-container').innerHTML = problemsHtml;
+
+            // Open the most recent month by default
+            const firstDropdown = document.querySelector('.month-dropdown');
+            if (firstDropdown) {
+              const firstHeader = firstDropdown.querySelector('.month-header');
+              toggleMonthDropdown(firstHeader);
+            }
           })
           .catch(error => {
             document.getElementById('loading').innerHTML = `
