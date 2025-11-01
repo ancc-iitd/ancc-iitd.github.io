@@ -48,6 +48,7 @@
         --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
         --gradient-green: linear-gradient(135deg, #10b981 0%, #059669 100%);
         --gradient-orange: linear-gradient(135deg, #f97316 0%, #ea580c 100%); /* New orange gradient for registration */
+        --gradient-whatsapp: linear-gradient(135deg, #25d366 0%, #128c7e 100%); /* WhatsApp gradient */
       }
 
       * {
@@ -315,6 +316,17 @@
         box-shadow: 0 5px 15px rgba(249, 115, 22, 0.4);
       }
 
+      .action-btn.whatsapp {
+        background: var(--gradient-whatsapp);
+        color: white;
+      }
+
+      .action-btn.whatsapp:hover {
+        background: linear-gradient(135deg, #1ebea5 0%, #0d8e7a 100%);
+        color: white;
+        box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+      }
+
       .action-btn.status {
         background: var(--gradient-2);
         cursor: default;
@@ -576,6 +588,12 @@
         if (detailsMap['Registration Link'] && detailsMap['Registration Link'] != "") {
           card += "<a href='" + detailsMap['Registration Link'] + "' target='_blank' class='action-btn tertiary'>";
           card += "<i class='fas fa-user-plus'></i> Register</a>";
+        }
+        
+        // WhatsApp Group button
+        if (detailsMap['WhatsApp Group Link'] && detailsMap['WhatsApp Group Link'] != "") {
+          card += "<a href='" + detailsMap['WhatsApp Group Link'] + "' target='_blank' class='action-btn whatsapp'>";
+          card += "<i class='fab fa-whatsapp'></i> WhatsApp Group</a>";
         }
         
         // Editorial button
