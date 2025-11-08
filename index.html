@@ -172,18 +172,38 @@
         z-index: 2;
       }
 
-      .powered-by {
-        font-size: 1.2rem;
-        font-weight: 500;
-        color: rgba(255, 255, 255, 0.8);
-        margin-top: 0.5rem;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-      }
-
       .jump-text {
         color: #f59e0b;
         font-weight: 600;
         text-shadow: 0 2px 4px rgba(245, 158, 11, 0.3);
+      }
+
+      /* Typing effect for Sponsored by */
+      .sponsored-by {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-top: 1rem;
+        color: #e6dde0;
+
+      }
+
+      .sponsor-text {
+        color: #fd084a;
+        font-weight: 700;
+        margin-left: 10px;
+      }
+
+      .trading-text {
+        color: #000000;
+        font-weight: 700;
+      }
+
+      .blink {
+        animation: blink 1s infinite;
+      }
+
+      @keyframes blink {
+        50% { opacity: 0; }
       }
 
       /* Cards */
@@ -427,8 +447,8 @@
           font-size: 2.5rem !important;
         }
         
-        .powered-by {
-          font-size: 1rem;
+        .sponsored-by {
+          font-size: 1.2rem;
         }
         
         .card-links {
@@ -546,21 +566,22 @@
     <div class="hero-section px-3 pt-5 pb-4 mb-3 text-center text-white">
       <h1 class="hero-title display-2">Algorithms and Coding Club<br>IIT Delhi</h1>
       <!-- <p class="lead mt-3">Learn. Code. Win.</p> -->
-      <div class="powered-by">
-        Powered by <span class="jump-text">JUMP</span>
+
+      <div class="sponsored-by">
+        Powered by <span id="sponsor-text"></span><span class="blink">|</span>
       </div>
       <hr class="my-3 mx-5">
       <div class="d-flex justify-content-center mt-4">
         <a target="_blank" class="social-link youtube-link m-2" href="https://www.youtube.com/channel/UC7XoOZ3Ip7i8-78jYLjAC2Q">
           <i class="fab fa-youtube"></i>
         </a>
-        <a target="_blank" class="social-link instagram-link m-2" href="https://www.instagram.com/ancc.iitd/?hl=en">
+        <a target="_blank" class="social-link instagram-link m-2" href="https://www.youtube.com/channel/UC7XoOZ3Ip7i8-78jYLjAC2Q">
           <i class="fab fa-instagram"></i>
         </a>
-        <a target="_blank" class="social-link facebook-link m-2" href="https://www.facebook.com/anciitd/">
+        <a target="_blank" class="social-link facebook-link m-2" href="https://www.youtube.com/channel/UC7XoOZ3Ip7i8-78jYLjAC2Q">
           <i class="fab fa-facebook-f"></i>
         </a>
-        <a target="_blank" class="social-link discord-link m-2" href="https://mail.google.com/mail/?view=cm&fs=1&to=ancclub@admin.iitd.ac.in">
+        <a target="_blank" class="social-link discord-link m-2" href="https://www.youtube.com/channel/UC7XoOZ3Ip7i8-78jYLjAC2Q">
           <i class="far fa-envelope"></i>
         </a>
       </div>
@@ -614,6 +635,61 @@
           particlesContainer.appendChild(particle);
         }
       }
+
+      // Typing effect for Sponsored by
+// Typing effect for Sponsored by — improved to color partial "JUMP" as red and partial "Trading" as black
+function sponsorTypeWriter() {
+  const text = "JUMP Trading";
+  const sponsorElement = document.getElementById('sponsor-text');
+  let charIndex = 0;
+  let isDeleting = false;
+
+  // small helper to escape HTML characters (safe to inject partial text)
+  function escapeHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function type() {
+    // update charIndex
+    if (isDeleting) {
+      charIndex = Math.max(0, charIndex - 1);
+    } else {
+      charIndex = Math.min(text.length, charIndex + 1);
+    }
+
+    // whole currently-typed substring
+    const displayed = text.substring(0, charIndex);
+
+    // JUMP is first 4 chars, rest is Trading (or partial)
+    const left = displayed.substring(0, 4);   // JUMP (or partial)
+    const right = displayed.substring(4);     // space + Trading (or partial)
+
+    // build HTML so JUMP portion always uses sponsor-text, Trading portion always uses trading-text
+    let html = "";
+    if (left.length > 0) {
+      html += `<span class="sponsor-text">${escapeHtml(left)}</span>`;
+    }
+    if (right.length > 0) {
+      html += `<span class="trading-text">${escapeHtml(right)}</span>`;
+    }
+
+    sponsorElement.innerHTML = html;
+
+    // speed handling
+    let typeSpeed = isDeleting ? 75 : 150;
+    if (!isDeleting && charIndex === text.length) {
+      typeSpeed = 2000;
+      isDeleting = true;
+    } else if (isDeleting && charIndex === 0) {
+      isDeleting = false;
+      typeSpeed = 500;
+    }
+
+    setTimeout(type, typeSpeed);
+  }
+
+  type();
+}
 
       function convertGoogleDriveLink(url) {
         if (!url || url.trim() === "") return "";
@@ -805,6 +881,7 @@
       // Initialize everything
       document.addEventListener('DOMContentLoaded', function() {
         createParticles();
+        sponsorTypeWriter();
         getTeam();
       });
     </script>
