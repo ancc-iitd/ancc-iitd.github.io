@@ -125,6 +125,23 @@
         color: var(--primary-color) !important;
       }
 
+      /* Remove focus outline from navbar toggler */
+      .navbar-toggler:focus,
+      .navbar-toggler:active {
+        outline: none !important;
+        box-shadow: none !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      }
+
+      .navbar-toggler {
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        transition: all 0.3s ease;
+      }
+
+      .navbar-toggler:hover {
+        border: 1px solid rgba(99, 102, 241, 0.5) !important;
+      }
+
       /* Hero section */
       .hero-section {
         background: var(--gradient);
@@ -422,9 +439,18 @@
                alt="ANCC Logo" height="40">
         </a>
         
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+        <!-- Mobile header with JUMP logo and hamburger -->
+        <div class="d-flex d-sm-none align-items-center ms-auto">
+          <!-- JUMP Logo on mobile (rightmost corner) -->
+          <a class="nav-link me-3" href="#" style="padding: 0;">
+            <img src="https://raw.githubusercontent.com/Yashdeep-Singh-git/ANCC/main/images/jump_logo.jpg" alt="JUMP Logo" height="35">
+          </a>
+          
+          <!-- Hamburger menu -->
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
         
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-sm-0">
@@ -451,8 +477,8 @@
             </li>
           </ul>
           
-          <!-- JUMP Logo on the right -->
-          <div class="navbar-nav ms-auto">
+          <!-- JUMP Logo on desktop (hidden on mobile) -->
+          <div class="navbar-nav ms-auto d-none d-sm-flex">
             <a class="nav-link" href="#" style="padding: 0;">
               <img src="https://raw.githubusercontent.com/Yashdeep-Singh-git/ANCC/main/images/jump_logo.jpg" alt="JUMP Logo" height="40">
             </a>

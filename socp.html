@@ -114,6 +114,7 @@
         font-weight: 500;
         transition: all 0.3s ease;
         position: relative;
+        color: var(--text-secondary) !important;
       }
 
       .nav-link:hover {
@@ -123,6 +124,23 @@
 
       .nav-link.active {
         color: var(--primary-color) !important;
+      }
+
+      /* Remove focus outline from navbar toggler */
+      .navbar-toggler:focus,
+      .navbar-toggler:active {
+        outline: none !important;
+        box-shadow: none !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      }
+
+      .navbar-toggler {
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        transition: all 0.3s ease;
+      }
+
+      .navbar-toggler:hover {
+        border: 1px solid rgba(99, 102, 241, 0.5) !important;
       }
 
       /* Hero section */
@@ -375,9 +393,18 @@
                alt="ANCC Logo" height="40">
         </a>
         
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+        <!-- Mobile header with JUMP logo and hamburger -->
+        <div class="d-flex d-sm-none align-items-center ms-auto">
+          <!-- JUMP Logo on mobile (rightmost corner) -->
+          <a class="nav-link me-3" href="#" style="padding: 0;">
+            <img src="https://raw.githubusercontent.com/Yashdeep-Singh-git/ANCC/main/images/jump_logo.jpg" alt="JUMP Logo" height="35">
+          </a>
+          
+          <!-- Hamburger menu -->
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
         
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-sm-0">
@@ -385,13 +412,13 @@
               <a class="nav-link" href="index.html">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="contests.html">Contests</a>
+              <a class="nav-link" href="contests.html">Contests</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="pod.html">Problem of the Day</a>
+              <a class="nav-link" href="pod.html">Problem of the Day</a>
             </li>
             <!-- <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="caic_points.html">CAIC Points</a>
+              <a class="nav-link" href="caic_points.html">CAIC Points</a>
             </li> -->
             <li class="nav-item">
               <a class="nav-link" href="team2025.html">Team 2025</a>
@@ -404,8 +431,8 @@
             </li>
           </ul>
           
-          <!-- JUMP Logo on the right -->
-          <div class="navbar-nav ms-auto">
+          <!-- JUMP Logo on desktop (hidden on mobile) -->
+          <div class="navbar-nav ms-auto d-none d-sm-flex">
             <a class="nav-link" href="#" style="padding: 0;">
               <img src="https://raw.githubusercontent.com/Yashdeep-Singh-git/ANCC/main/images/jump_logo.jpg" alt="JUMP Logo" height="40">
             </a>
@@ -549,28 +576,32 @@
         document.getElementById('loading').style.display = 'block';
         
         let Sheet = new XMLHttpRequest();
-        Sheet.open("GET", "https://docs.google.com/spreadsheets/d/11WJcJriYPu_jhhsVb1ov1kaajF-wn1cW8LwaVXdRHXA/export?format=tsv&gid=843127773", false);
-        Sheet.onload = () => {
-          let values = Sheet.responseText;
-          document.getElementById('loading').style.display = 'none';
-          document.getElementById('eventsH').style = "display:block;";
-          let rows = values.split('\r');
-          let eventsstr = "";
-          
-          rows.forEach((r, index) => {
-            let cols = r.split('\t');
-            let card = generateCard(cols[0], cols[1], cols[2], cols[3], cols[4], cols[5], cols[6]);
-            eventsstr += card;
-          });
-          
-          document.getElementById('events').innerHTML = eventsstr;
-          
-          // Stagger the card animations
-          const cards = document.querySelectorAll('.custom-card');
-          cards.forEach((card, index) => {
-            card.style.animationDelay = (index * 0.1) + 's';
-            card.style.transform = 'translateY(50px)';
-          });
+        Sheet.open("GET", "https://docs.google.com/spreadsheets/d/11WJcJriYPu_jhhsVb1ov1kaajF-wn1cW8LwaVXdRHXA/export?format=tsv&gid=843127773", true);
+        Sheet.onload = function() {
+          if (Sheet.status === 200) {
+            let values = Sheet.responseText;
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('eventsH').style.display = 'block';
+            let rows = values.split('\r\n');
+            let eventsstr = "";
+            
+            for (let i = 0; i < rows.length; i++) {
+              let cols = rows[i].split('\t');
+              if (cols.length >= 1 && cols[0].trim() !== '') {
+                let card = generateCard(cols[0], cols[1], cols[2], cols[3], cols[4], cols[5], cols[6]);
+                eventsstr += card;
+              }
+            }
+            
+            document.getElementById('events').innerHTML = eventsstr;
+            
+            // Stagger the card animations
+            const cards = document.querySelectorAll('.custom-card');
+            cards.forEach((card, index) => {
+              card.style.animationDelay = (index * 0.1) + 's';
+              card.style.transform = 'translateY(50px)';
+            });
+          }
         }
         Sheet.send(null);
       }
