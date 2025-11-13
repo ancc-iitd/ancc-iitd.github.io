@@ -638,18 +638,19 @@
 
       // Typing effect for Sponsored by
 // Typing effect for Sponsored by — improved to color partial "JUMP" as red and partial "Trading" as black
-function sponsorTypeWriter() {
-  const sponsorElement = document.getElementById('sponsor-text');
-  
-  // Static version - just display the text without animation
-  sponsorElement.innerHTML = '<span class="sponsor-text">Jump</span><span class="trading-text"> Trading</span>';
-  
-  // Remove the blinking cursor since we don't need it for static text
-  const blinkElement = document.querySelector('.blink');
-  if (blinkElement) {
-    blinkElement.style.display = 'none';
-  }
-}
+      function sponsorTypeWriter() {
+        const sponsorElement = document.getElementById('sponsor-text');
+        
+        // Static version - just display the text without animation
+        sponsorElement.innerHTML = '<span class="sponsor-text">Jump</span><span class="trading-text"> Trading</span>';
+        
+        // Remove the blinking cursor since we don't need it for static text
+        const blinkElement = document.querySelector('.blink');
+        if (blinkElement) {
+          blinkElement.style.display = 'none';
+        }
+      }
+
       function convertGoogleDriveLink(url) {
         if (!url || url.trim() === "") return "";
         
