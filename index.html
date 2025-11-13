@@ -639,58 +639,17 @@
       // Typing effect for Sponsored by
 // Typing effect for Sponsored by — improved to color partial "JUMP" as red and partial "Trading" as black
 function sponsorTypeWriter() {
-  const text = "Jump Trading";
   const sponsorElement = document.getElementById('sponsor-text');
-  let charIndex = 0;
-  let isDeleting = false;
-
-  // small helper to escape HTML characters (safe to inject partial text)
-  function escapeHtml(str) {
-    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  
+  // Static version - just display the text without animation
+  sponsorElement.innerHTML = '<span class="sponsor-text">Jump</span><span class="trading-text"> Trading</span>';
+  
+  // Remove the blinking cursor since we don't need it for static text
+  const blinkElement = document.querySelector('.blink');
+  if (blinkElement) {
+    blinkElement.style.display = 'none';
   }
-
-  function type() {
-    // update charIndex
-    if (isDeleting) {
-      charIndex = Math.max(0, charIndex - 1);
-    } else {
-      charIndex = Math.min(text.length, charIndex + 1);
-    }
-
-    // whole currently-typed substring
-    const displayed = text.substring(0, charIndex);
-
-    // JUMP is first 4 chars, rest is Trading (or partial)
-    const left = displayed.substring(0, 4);   // JUMP (or partial)
-    const right = displayed.substring(4);     // space + Trading (or partial)
-
-    // build HTML so JUMP portion always uses sponsor-text, Trading portion always uses trading-text
-    let html = "";
-    if (left.length > 0) {
-      html += `<span class="sponsor-text">${escapeHtml(left)}</span>`;
-    }
-    if (right.length > 0) {
-      html += `<span class="trading-text">${escapeHtml(right)}</span>`;
-    }
-
-    sponsorElement.innerHTML = html;
-
-    // speed handling
-    let typeSpeed = isDeleting ? 75 : 150;
-    if (!isDeleting && charIndex === text.length) {
-      typeSpeed = 2000;
-      isDeleting = true;
-    } else if (isDeleting && charIndex === 0) {
-      isDeleting = false;
-      typeSpeed = 500;
-    }
-
-    setTimeout(type, typeSpeed);
-  }
-
-  type();
 }
-
       function convertGoogleDriveLink(url) {
         if (!url || url.trim() === "") return "";
         
