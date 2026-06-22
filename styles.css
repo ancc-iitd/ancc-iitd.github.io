@@ -126,7 +126,7 @@ a { text-decoration: none; }
 .nav-link.active { color: var(--text-primary) !important; }
 
 .brand-logo { height: 40px; width: auto; }
-.partner-logo { height: 38px; width: auto; border-radius: 8px; }
+.partner-logo { height: 38px; width: auto; }
 
 .navbar-toggler {
   border: 1px solid rgba(255, 255, 255, 0.12) !important;
