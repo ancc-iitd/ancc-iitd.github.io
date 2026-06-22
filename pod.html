@@ -1,558 +1,45 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>ANCC IITD - Problem of the Day</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-      :root {
-        --primary-color: #6366f1;
-        --secondary-color: #8b5cf6;
-        --accent-color: #f59e0b;
-        --dark-bg: #0f172a;
-        --card-bg: #1e293b;
-        --card-hover: #334155;
-        --text-primary: #f8fafc;
-        --text-secondary: #cbd5e1;
-        --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        --gradient-green: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      }
 
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+  </head>
 
-      body {
-        font-family: 'Inter', sans-serif;
-        background: var(--dark-bg);
-        color: var(--text-primary);
-        line-height: 1.6;
-        overflow-x: hidden;
-      }
-
-      .bg-animated {
-        background: linear-gradient(-45deg, #0f172a, #1e293b, #334155, #475569);
-        background-size: 400% 400%;
-        animation: gradientShift 15s ease infinite;
-      }
-
-      @keyframes gradientShift {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-      }
-
-      .particles {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-        pointer-events: none;
-      }
-
-      .particle {
-        position: absolute;
-        width: 4px;
-        height: 4px;
-        background: rgba(99, 102, 241, 0.5);
-        border-radius: 50%;
-        animation: float 20s infinite linear;
-      }
-
-      @keyframes float {
-        0% {
-          transform: translateY(100vh) rotate(0deg);
-          opacity: 0;
-        }
-        10% {
-          opacity: 1;
-        }
-        90% {
-          opacity: 1;
-        }
-        100% {
-          transform: translateY(-100vh) rotate(360deg);
-          opacity: 0;
-        }
-      }
-
-      .navbar {
-        backdrop-filter: blur(10px);
-        background: rgba(15, 23, 42, 0.9) !important;
-        border-bottom: 1px solid rgba(99, 102, 241, 0.2);
-        transition: all 0.3s ease;
-      }
-
-      .navbar-brand {
-        font-weight: 700;
-        font-size: 1.5rem;
-        background: var(--gradient);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-      }
-
-      .nav-link {
-        font-weight: 500;
-        transition: all 0.3s ease;
-        position: relative;
-      }
-
-      .nav-link:hover {
-        color: var(--primary-color) !important;
-        transform: translateY(-2px);
-      }
-
-      .nav-link.active {
-        color: var(--primary-color) !important;
-      }
-
-      .hero-section {
-        background: var(--gradient);
-        border-radius: 0 0 50px 50px;
-        position: relative;
-        overflow: hidden;
-        margin-bottom: 4rem;
-      }
-
-      .hero-section::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-        opacity: 0.1;
-      }
-
-      .hero-title {
-        font-weight: 800;
-        letter-spacing: -0.025em;
-        text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        position: relative;
-        z-index: 2;
-      }
-
-      .problem-card {
-        background: var(--card-bg);
-        border-radius: 20px;
-        overflow: hidden;
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        border: 1px solid rgba(99, 102, 241, 0.1);
-        position: relative;
-        margin-bottom: 1rem;
-      }
-
-      .problem-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 4px;
-        background: var(--gradient);
-        transform: scaleX(0);
-        transition: transform 0.3s ease;
-      }
-
-      .problem-card:hover::before {
-        transform: scaleX(1);
-      }
-
-      .problem-card:hover {
-        transform: translateY(-5px) scale(1.01);
-        background: var(--card-hover);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(99, 102, 241, 0.2);
-      }
-
-      .problem-header {
-        padding: 1.2rem 1.5rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 1rem;
-        background: rgba(99, 102, 241, 0.05);
-        border-bottom: 1px solid rgba(99, 102, 241, 0.1);
-      }
-
-      .problem-info {
-        flex: 1;
-        min-width: 200px;
-      }
-
-      .problem-name {
-        font-size: 1.2rem;
-        font-weight: 700;
-        margin-bottom: 0.3rem;
-        color: var(--text-primary);
-      }
-
-      .problem-date {
-        font-size: 0.85rem;
-        color: var(--text-secondary);
-      }
-
-      .problem-actions {
-        display: flex;
-        gap: 0.8rem;
-        flex-wrap: wrap;
-      }
-
-      .action-btn {
-        background: var(--gradient);
-        color: white;
-        border: none;
-        padding: 0.6rem 1.2rem;
-        border-radius: 20px;
-        font-weight: 600;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-        transition: all 0.3s ease;
-        font-size: 0.85rem;
-        cursor: pointer;
-        white-space: nowrap;
-      }
-
-      .action-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
-        color: white;
-        text-decoration: none;
-      }
-
-      .action-btn.secondary {
-        background: var(--gradient-green);
-        color: white;
-      }
-
-      .action-btn.secondary:hover {
-        background: linear-gradient(135deg, #0da271 0%, #047852 100%);
-        color: white;
-        box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
-      }
-
-      /* Month Dropdown Styles */
-      .month-dropdown {
-        margin: 2rem 0 1rem;
-        border-radius: 15px;
-        overflow: hidden;
-        background: var(--card-bg);
-        border: 1px solid rgba(99, 102, 241, 0.2);
-        transition: all 0.3s ease;
-      }
-
-      .month-dropdown:hover {
-        border-color: rgba(99, 102, 241, 0.4);
-      }
-
-      .month-header {
-        padding: 1.5rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        cursor: pointer;
-        background: rgba(99, 102, 241, 0.1);
-        transition: all 0.3s ease;
-        user-select: none;
-      }
-
-      .month-header:hover {
-        background: rgba(99, 102, 241, 0.15);
-      }
-
-      .month-header h2 {
-        margin: 0;
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: var(--text-primary);
-      }
-
-      .month-toggle {
-        font-size: 1.2rem;
-        transition: transform 0.3s ease;
-        color: var(--primary-color);
-      }
-
-      .month-toggle.rotated {
-        transform: rotate(180deg);
-      }
-
-      .month-content {
-        padding: 0;
-        max-height: 0;
-        overflow: hidden;
-        transition: all 0.4s ease;
-        background: rgba(15, 23, 42, 0.5);
-      }
-
-      .month-content.show {
-        max-height: 5000px;
-        padding: 1.5rem;
-      }
-
-      .problems-count {
-        background: var(--gradient);
-        color: white;
-        padding: 0.3rem 0.8rem;
-        border-radius: 20px;
-        font-size: 0.85rem;
-        font-weight: 600;
-        margin-left: 1rem;
-      }
-
-      .social-link {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        transition: all 0.3s ease;
-        text-decoration: none;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .social-link::before {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 0;
-        height: 0;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 50%;
-        transition: all 0.3s ease;
-        transform: translate(-50%, -50%);
-      }
-
-      .social-link:hover::before {
-        width: 100px;
-        height: 100px;
-      }
-
-      .social-link:hover {
-        transform: translateY(-3px);
-      }
-
-      .youtube-link {
-        background: linear-gradient(135deg, #ff0000, #cc0000);
-        color: white;
-      }
-
-      .instagram-link {
-        background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-        color: white;
-      }
-
-      .facebook-link {
-        background: linear-gradient(135deg, #3b5998, #4a69a4);
-        color: white;
-      }
-
-      .email-link {
-        background: linear-gradient(135deg, #77aacc, #90b2dd);
-        color: white;
-      }
-
-      #loading {
-        text-align: center;
-        padding: 4rem 0;
-      }
-
-      @media (max-width: 768px) {
-        .hero-title {
-          font-size: 2.5rem !important;
-        }
-        
-        .problem-header {
-          flex-direction: column;
-          align-items: flex-start;
-        }
-        
-        .problem-actions {
-          width: 100%;
-          justify-content: center;
-        }
-
-        .month-header {
-          padding: 1rem;
-        }
-
-        .month-header h2 {
-          font-size: 1.3rem;
-        }
-      }
-
-      .fade-in {
-        animation: fadeIn 0.8s ease forwards;
-      }
-
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(30px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      
-      /* Remove focus outline from navbar toggler */
-      .navbar-toggler:focus,
-      .navbar-toggler:active {
-        outline: none !important;
-        box-shadow: none !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-      }
-
-      .navbar-toggler {
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        transition: all 0.3s ease;
-      }
-
-      .navbar-toggler:hover {
-        border: 1px solid rgba(99, 102, 241, 0.5) !important;
-      }
-    </style>
-</head>
-<body class="bg-animated">
-    <!-- Floating particles -->
+  <body class="bg-animated" data-page="pod">
     <div class="particles" id="particles"></div>
+    <div id="site-nav"></div>
 
-    <nav class="navbar navbar-expand-sm navbar-dark">
-      <div class="container-fluid">
-        <!-- ANCC Logo on the left -->
-        <a class="navbar-brand my-0" href="index.html">
-          <img src="https://raw.githubusercontent.com/ancc-iitd/ancc-iitd.github.io/main/images/transparent-logo.png" 
-               alt="ANCC Logo" height="40">
-        </a>
-        
-        <!-- Mobile header with JUMP logo and hamburger -->
-        <div class="d-flex d-sm-none align-items-center ms-auto">
-          <!-- JUMP Logo on mobile (rightmost corner) -->
-          <a class="nav-link me-3" href="#" style="padding: 0;">
-            <img src="https://raw.githubusercontent.com/Yashdeep-Singh-git/ANCC/main/images/jump_logo.jpg" alt="JUMP Logo" height="35">
-          </a>
-          
-          <!-- Hamburger menu -->
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-        </div>
-        
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-sm-0">
-            <li class="nav-item">
-              <a class="nav-link" href="index.html">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="contests.html">Contests</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="pod.html">Problem of the Day</a>
-            </li>
-            <!-- <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="caic_points.html">CAIC Points</a>
-            </li> -->
-            <li class="nav-item">
-              <a class="nav-link" href="team2025.html">Team 2025</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="team2024.html">Team 2024</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="socp.html">SoCP 2021</a>
-            </li>
-          </ul>
-          
-          <!-- JUMP Logo on desktop (hidden on mobile) -->
-          <div class="navbar-nav ms-auto d-none d-sm-flex">
-            <a class="nav-link" href="#" style="padding: 0;">
-              <img src="https://raw.githubusercontent.com/Yashdeep-Singh-git/ANCC/main/images/jump_logo.jpg" alt="JUMP Logo" height="40">
-            </a>
-          </div>
-        </div>
-      </div>
-    </nav>
-
-    <div class="hero-section px-3 pt-5 pb-4 mb-3 text-center text-white">
-      <h1 class="hero-title display-2">Problem of the Day</h1>
+    <header class="hero-section text-white">
+      <h1 class="hero-title">Problem of the Day</h1>
       <p class="lead mt-3">Daily coding challenges to sharpen your skills</p>
-      <hr class="my-3 mx-5">
-      <div class="d-flex justify-content-center mt-4">
-        <a target="_blank" class="social-link youtube-link m-2" href="https://www.youtube.com/channel/UC7XoOZ3Ip7i8-78jYLjAC2Q">
-          <i class="fab fa-youtube"></i>
-        </a>
-        <a target="_blank" class="social-link instagram-link m-2" href="https://www.instagram.com/ancc.iitd/?hl=en">
-          <i class="fab fa-instagram"></i>
-        </a>
-        <a target="_blank" class="social-link facebook-link m-2" href="https://www.facebook.com/anciitd/">
-          <i class="fab fa-facebook-f"></i>
-        </a>
-        <a target="_blank" class="social-link email-link m-2" href="mailto:ancclub@admin.iitd.ac.in">
-          <i class="fas fa-envelope"></i>
-        </a>
-      </div>
-    </div>
+      <hr>
+      <div data-social-row></div>
+    </header>
 
     <main class="container my-4">
-      <div id="loading" class="text-center text-white py-5">
-        <div class="spinner-border text-primary mb-3" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
-        <p>Loading problems...</p>
+      <div id="loading" class="text-center text-white">
+        <div class="loading-spinner"></div>
+        <p class="mt-3">Loading problems...</p>
       </div>
-      
       <div id="problems-container"></div>
     </main>
 
-    <nav class="footer font-small text-white py-4" style="background: rgba(15, 23, 42, 0.9); border-top: 1px solid rgba(99, 102, 241, 0.2); backdrop-filter: blur(10px); margin-top: 4rem;">
-      <div class="container-fluid text-center">
-        <p class="mb-0">Copyright © 2025 ANCC IIT Delhi</p>
-      </div>
-    </nav>
+    <div id="site-footer"></div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <script type="text/javascript">
-      // Create floating particles
-      function createParticles() {
-        const particlesContainer = document.getElementById('particles');
-        const particleCount = 50;
-        
-        for (let i = 0; i < particleCount; i++) {
-          const particle = document.createElement('div');
-          particle.className = 'particle';
-          particle.style.left = Math.random() * 100 + '%';
-          particle.style.animationDelay = Math.random() * 20 + 's';
-          particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
-          particlesContainer.appendChild(particle);
-        }
-      }
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <script src="site.js"></script>
+
+    <script>
+      const POD_SHEET = 'https://docs.google.com/spreadsheets/d/11WJcJriYPu_jhhsVb1ov1kaajF-wn1cW8LwaVXdRHXA/export?format=tsv&gid=0';
 
       function generateProblemCard(problem) {
-        const dateObj = new Date(problem.Date);
-        const formattedDate = dateObj.toLocaleDateString('en-US', { 
-          year: 'numeric', 
-          month: 'long', 
-          day: 'numeric' 
-        });
-        
+        const formattedDate = new Date(problem.Date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
         return `
           <div class="problem-card fade-in">
             <div class="problem-header">
@@ -561,135 +48,67 @@
                 <div class="problem-date">${formattedDate}</div>
               </div>
               <div class="problem-actions">
-                <a href="${problem.ProblemLink}" target="_blank" class="action-btn">
+                <a href="${problem.ProblemLink}" target="_blank" rel="noopener" class="action-btn">
                   <i class="fas fa-external-link-alt"></i> Problem
                 </a>
                 ${problem.SolutionLink ? `
-                  <a href="${problem.SolutionLink}" target="_blank" class="action-btn secondary">
+                  <a href="${problem.SolutionLink}" target="_blank" rel="noopener" class="action-btn secondary">
                     <i class="fas fa-lightbulb"></i> Solution
-                  </a>
-                ` : ''}
+                  </a>` : ''}
               </div>
             </div>
-          </div>
-        `;
+          </div>`;
       }
 
       function toggleMonthDropdown(header) {
         const content = header.nextElementSibling;
         const toggle = header.querySelector('.month-toggle');
-        
-        if (content.classList.contains('show')) {
-          content.classList.remove('show');
-          toggle.classList.remove('rotated');
-        } else {
-          content.classList.add('show');
-          toggle.classList.add('rotated');
-        }
+        content.classList.toggle('show');
+        toggle.classList.toggle('rotated');
       }
 
       function generateMonthDropdown(month, problems) {
-        const problemsCount = problems.length;
-        
+        const count = problems.length;
         return `
           <div class="month-dropdown">
             <div class="month-header" onclick="toggleMonthDropdown(this)">
-              <h2>
-                ${month}
-                <span class="problems-count">${problemsCount} problem${problemsCount !== 1 ? 's' : ''}</span>
-              </h2>
-              <div class="month-toggle">
-                <i class="fas fa-chevron-down"></i>
-              </div>
+              <h2>${month}<span class="problems-count">${count} problem${count !== 1 ? 's' : ''}</span></h2>
+              <div class="month-toggle"><i class="fas fa-chevron-down"></i></div>
             </div>
             <div class="month-content">
-              ${problems.map(problem => generateProblemCard(problem)).join('')}
+              ${problems.map(generateProblemCard).join('')}
             </div>
-          </div>
-        `;
+          </div>`;
       }
-      
-      function loadProblems() {
-        // Replace with your actual Google Sheets URL
-        const sheetUrl = "https://docs.google.com/spreadsheets/d/11WJcJriYPu_jhhsVb1ov1kaajF-wn1cW8LwaVXdRHXA/export?format=tsv&gid=0";
-        
-        fetch(sheetUrl)
-          .then(response => response.text())
-          .then(data => {
-            document.getElementById('loading').style.display = 'none';
-            
-            const rows = data.split('\r\n');
-            const headers = rows[0].split('\t');
-            const problems = [];
-            
-            for (let i = 1; i < rows.length; i++) {
-              const cells = rows[i].split('\t');
-              if (cells.length >= 4) {
-                const problem = {};
-                for (let j = 0; j < headers.length; j++) {
-                  problem[headers[j]] = cells[j];
-                }
-                problems.push(problem);
-              }
-            }
-            
-            // Group problems by month
-            const problemsByMonth = {};
-            problems.forEach(problem => {
-              if (problem.Date) {
-                const date = new Date(problem.Date);
-                const monthYear = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
-                
-                if (!problemsByMonth[monthYear]) {
-                  problemsByMonth[monthYear] = [];
-                }
-                
-                problemsByMonth[monthYear].push(problem);
-              }
-            });
-            
-            // Sort months chronologically (newest first)
-            const sortedMonths = Object.keys(problemsByMonth).sort((a, b) => {
-              return new Date(b) - new Date(a);
-            });
-            
-            // Reverse the order of problems within each month (latest first)
-            sortedMonths.forEach(month => {
-              problemsByMonth[month].sort((a, b) => {
-                return new Date(b.Date) - new Date(a.Date);
-              });
-            });
-            
-            // Generate HTML with dropdowns
-            let problemsHtml = '';
-            sortedMonths.forEach(month => {
-              problemsHtml += generateMonthDropdown(month, problemsByMonth[month]);
-            });
-            
-            document.getElementById('problems-container').innerHTML = problemsHtml;
 
-            // Open the most recent month by default
-            const firstDropdown = document.querySelector('.month-dropdown');
-            if (firstDropdown) {
-              const firstHeader = firstDropdown.querySelector('.month-header');
-              toggleMonthDropdown(firstHeader);
-            }
-          })
-          .catch(error => {
-            document.getElementById('loading').innerHTML = `
-              <div class="text-danger">
-                <p>Error loading problems. Please try again later.</p>
-                <p>${error.message}</p>
-              </div>
-            `;
+      async function loadProblems() {
+        try {
+          const { records } = await fetchSheet(POD_SHEET);
+          document.getElementById('loading').style.display = 'none';
+
+          const problems = records.filter(p => p.Date);
+
+          const byMonth = {};
+          problems.forEach(p => {
+            const monthYear = new Date(p.Date).toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+            (byMonth[monthYear] = byMonth[monthYear] || []).push(p);
           });
+
+          const months = Object.keys(byMonth).sort((a, b) => new Date(b) - new Date(a));
+          months.forEach(m => byMonth[m].sort((a, b) => new Date(b.Date) - new Date(a.Date)));
+
+          document.getElementById('problems-container').innerHTML =
+            months.map(m => generateMonthDropdown(m, byMonth[m])).join('');
+
+          const first = document.querySelector('.month-dropdown .month-header');
+          if (first) toggleMonthDropdown(first);
+        } catch (e) {
+          document.getElementById('loading').innerHTML =
+            `<div class="text-danger"><p>Error loading problems. Please try again later.</p></div>`;
+        }
       }
 
-      // Initialize everything
-      document.addEventListener('DOMContentLoaded', function() {
-        createParticles();
-        loadProblems();
-      });
+      document.addEventListener('DOMContentLoaded', loadProblems);
     </script>
-</body>
+  </body>
 </html>
