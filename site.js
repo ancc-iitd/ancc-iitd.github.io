@@ -186,10 +186,31 @@ function applyCodeforcesColors() {
     .catch(() => { /* leave default colour */ });
 }
 
+/* ---------- Profile URL normalisers ---------- */
+function ensureHttp(url) {
+  url = (url || '').trim();
+  if (!url) return '';
+  return /^https?:\/\//i.test(url) ? url : 'https://' + url.replace(/^\/+/, '');
+}
+
+function githubUrl(value) {
+  value = (value || '').trim();
+  if (!value) return '';
+  if (/github\.com/i.test(value)) return ensureHttp(value);   // full or protocol-less URL
+  return 'https://github.com/' + value.replace(/^@/, '');       // bare username
+}
+
+function codeforcesHandle(value) {
+  value = (value || '').trim();
+  const m = value.match(/codeforces\.com\/profile\/([^/?#]+)/i);
+  return (m ? m[1] : value).replace(/^@/, '');                  // extract handle from URL or use as-is
+}
+
 /* ---------- Team cards (shared by index, team2024, team2025) ---------- */
 function generateTeamCard(name, position, codeforces, github, linkedin, photoUrl) {
   const directPhotoUrl = convertGoogleDriveLink(photoUrl);
   const initials = name.split(' ').map(w => w.charAt(0)).join('').toUpperCase();
+  const cfHandle = codeforcesHandle(codeforces);
 
   let card = "<div class='team-card fade-in'>";
   card += "<div class='card-photo-section'>";
@@ -209,9 +230,9 @@ function generateTeamCard(name, position, codeforces, github, linkedin, photoUrl
   card += "</div>";
 
   card += "<div class='card-links'>";
-  if (linkedin)   card += "<a target='_blank' rel='noopener' href='" + linkedin + "' class='social-link linkedin-link' title='LinkedIn'><i class='fab fa-linkedin-in'></i></a>";
-  if (github)     card += "<a target='_blank' rel='noopener' href='https://github.com/" + github + "' class='social-link github-link' title='GitHub'><i class='fab fa-github'></i></a>";
-  if (codeforces) card += "<a target='_blank' rel='noopener' href='https://codeforces.com/profile/" + codeforces + "' class='codeforces-link rated-user user-black' title='Codeforces'>" + codeforces + "</a>";
+  if (linkedin)   card += "<a target='_blank' rel='noopener' href='" + ensureHttp(linkedin) + "' class='social-link linkedin-link' title='LinkedIn'><i class='fab fa-linkedin-in'></i></a>";
+  if (github)     card += "<a target='_blank' rel='noopener' href='" + githubUrl(github) + "' class='social-link github-link' title='GitHub'><i class='fab fa-github'></i></a>";
+  if (cfHandle)   card += "<a target='_blank' rel='noopener' href='https://codeforces.com/profile/" + cfHandle + "' class='codeforces-link rated-user user-black' title='Codeforces'>" + cfHandle + "</a>";
   card += "</div>";
 
   card += "</div>";
