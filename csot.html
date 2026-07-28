@@ -86,16 +86,6 @@
             { n: 8, date: 'Jun 20', title: 'Shortest Paths & Tree Diameter', yt: 'QR69WTR6IsY', dir: 'MODULE 4 — GRAPHS & TREES/LECTURE2' },
             { n: 9, date: 'Jun 22', title: 'MST & Topological Sort',         yt: '-HDNDy3Ph1c', dir: 'MODULE 4 — GRAPHS & TREES/LECTURE3' },
             { n: 10, date: 'Jul 2', title: 'Graph Theory Problems',          yt: 'f9SQfbvFpaA' },
-            { n: 11, tba: true },
-          ],
-        },
-        {
-          badge: 'Module 5', title: 'Segment Trees & Fenwick Trees',
-          topics: 'Segment Trees, Fenwick Trees',
-          lectures: [
-            { n: 12, tba: true },
-            { n: 13, tba: true },
-            { n: 14, tba: true },
           ],
         },
       ];
@@ -111,14 +101,6 @@
       }
 
       function lectureCard(lec) {
-        if (lec.tba) {
-          return `<div class="custom-card lecture-card upcoming fade-in">
-                    <div class="upcoming-inner">
-                      <div class="upcoming-n">Lecture ${lec.n}</div>
-                      <div>Coming soon</div>
-                    </div>
-                  </div>`;
-        }
         return `<div class="custom-card lecture-card fade-in">
                   <div class="yt-embed" data-id="${lec.yt}"></div>
                   <div class="card-body">
