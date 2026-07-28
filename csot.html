@@ -33,6 +33,15 @@
 
     <main class="container my-4">
       <div id="modules"></div>
+
+      <section class="module-section">
+        <div class="module-head">
+          <span class="module-badge">Contests</span>
+          <span class="module-title">Practice Contests</span>
+          <span class="module-topics">Codeforces rounds accompanying the lecture series.</span>
+        </div>
+        <div id="contests" class="contests-container"></div>
+      </section>
     </main>
 
     <div id="site-footer"></div>
@@ -76,7 +85,7 @@
             { n: 7, date: 'Jun 18', title: 'Graph Theory — BFS & DFS',      yt: '1KFWk5A0Xyw', dir: 'MODULE 4 — GRAPHS & TREES/LECTURE1' },
             { n: 8, date: 'Jun 20', title: 'Shortest Paths & Tree Diameter', yt: 'QR69WTR6IsY', dir: 'MODULE 4 — GRAPHS & TREES/LECTURE2' },
             { n: 9, date: 'Jun 22', title: 'MST & Topological Sort',         yt: '-HDNDy3Ph1c', dir: 'MODULE 4 — GRAPHS & TREES/LECTURE3' },
-            { n: 10, tba: true },
+            { n: 10, date: 'Jul 2', title: 'Graph Theory Problems',          yt: 'f9SQfbvFpaA' },
             { n: 11, tba: true },
           ],
         },
@@ -89,6 +98,12 @@
             { n: 14, tba: true },
           ],
         },
+      ];
+
+      const CONTESTS = [
+        { n: 1, date: 'Jun 3',  day: 'Wednesday', link: 'https://codeforces.com/contestInvitation/41d32f1183a7588f13ee09811294f0dd04d471cf' },
+        { n: 2, date: 'Jun 14', day: 'Sunday',    link: 'https://codeforces.com/contestInvitation/076be8ebc406e08adf16b4384fced8101fae17ed' },
+        { n: 3, date: 'Jul 5',  day: 'Sunday',    link: 'https://codeforces.com/contestInvitation/a6d809ecce29cc412170c768e559bf996247b7c8' },
       ];
 
       function repoUrl(dir) {
@@ -113,9 +128,9 @@
                       <a class="action-btn" target="_blank" rel="noopener" href="https://youtu.be/${lec.yt}">
                         <i class="fas fa-external-link-alt"></i> Watch on YouTube
                       </a>
-                      <a class="action-btn secondary" target="_blank" rel="noopener" href="${repoUrl(lec.dir)}">
+                      ${lec.dir ? `<a class="action-btn secondary" target="_blank" rel="noopener" href="${repoUrl(lec.dir)}">
                         <i class="fas fa-folder-open"></i> Materials
-                      </a>
+                      </a>` : ''}
                     </div>
                   </div>
                 </div>`;
@@ -135,6 +150,33 @@
           </section>`).join('');
       }
 
+      function contestCard(c) {
+        return `<div class="contest-card fade-in">
+                  <div class="contest-header">
+                    <h5 class="contest-name">Contest ${c.n}</h5>
+                  </div>
+                  <div class="contest-details">
+                    <div class="detail-block">
+                      <div class="detail-label">Date</div>
+                      <div class="detail-value">${c.date}</div>
+                    </div>
+                    <div class="detail-block">
+                      <div class="detail-label">Day</div>
+                      <div class="detail-value">${c.day}</div>
+                    </div>
+                  </div>
+                  <div class="contest-actions">
+                    <a class="action-btn tertiary" target="_blank" rel="noopener" href="${c.link}">
+                      <i class="fas fa-user-plus"></i> Register
+                    </a>
+                  </div>
+                </div>`;
+      }
+
+      function renderContests() {
+        document.getElementById('contests').innerHTML = CONTESTS.map(contestCard).join('');
+      }
+
       // Swap the thumbnail facade for the real player only when clicked.
       function setupYouTubeFacades() {
         document.querySelectorAll('.yt-embed[data-id]').forEach(el => {
@@ -152,6 +194,7 @@
 
       document.addEventListener('DOMContentLoaded', () => {
         renderModules();
+        renderContests();
         setupYouTubeFacades();
       });
     </script>
