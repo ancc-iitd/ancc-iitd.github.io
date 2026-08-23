@@ -289,7 +289,7 @@ function sheetField(record, candidates) {
    once when a row is read, so the label and the sort key stay in step. */
 const POSITION_LABELS = {
   'oc': 'Overall Coordinator',
-  'co-oc': 'Co-Overall Coordinator',
+  'co-overall coordinator': 'Co-OC',   // spelled out it wraps to two lines
 };
 
 function positionLabel(position) {
@@ -298,8 +298,9 @@ function positionLabel(position) {
 
 /* Seniority order; anything unrecognised sorts to the end. */
 const POSITION_ORDER = [
-  'overall coordinator', 'co-overall coordinator', 'panel member',
+  'overall coordinator', 'co-oc',
   'ctm & treasurer', 'ctm',
+  'panel member',
   'coordinator',
   'executive', 'representative',
 ];
