@@ -335,10 +335,15 @@ function generateTeamCard(member) {
   card += "<p class='card-position'>" + member.position + "</p>";
   card += "</div>";
 
+  // Icons live in their own row so the handle pill never wraps up beside them
+  // on members who filled in fewer profiles.
+  let icons = "";
+  if (linkedin)   icons += "<a target='_blank' rel='noopener' href='" + linkedin + "' class='social-link linkedin-link' title='LinkedIn'><i class='fab fa-linkedin-in'></i></a>";
+  if (github)     icons += "<a target='_blank' rel='noopener' href='" + github + "' class='social-link github-link' title='GitHub'><i class='fab fa-github'></i></a>";
+  if (instagram)  icons += "<a target='_blank' rel='noopener' href='" + instagram + "' class='social-link instagram-link' title='Instagram'><i class='fab fa-instagram'></i></a>";
+
   card += "<div class='card-links'>";
-  if (linkedin)   card += "<a target='_blank' rel='noopener' href='" + linkedin + "' class='social-link linkedin-link' title='LinkedIn'><i class='fab fa-linkedin-in'></i></a>";
-  if (github)     card += "<a target='_blank' rel='noopener' href='" + github + "' class='social-link github-link' title='GitHub'><i class='fab fa-github'></i></a>";
-  if (instagram)  card += "<a target='_blank' rel='noopener' href='" + instagram + "' class='social-link instagram-link' title='Instagram'><i class='fab fa-instagram'></i></a>";
+  if (icons)      card += "<div class='card-icons'>" + icons + "</div>";
   if (cfHandle)   card += "<a target='_blank' rel='noopener' href='https://codeforces.com/profile/" + cfHandle + "' class='codeforces-link rated-user user-black' title='Codeforces'>" + cfHandle + "</a>";
   card += "</div>";
 

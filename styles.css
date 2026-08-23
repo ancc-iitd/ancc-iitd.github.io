@@ -393,7 +393,22 @@ a { text-decoration: none; }
   letter-spacing: 0.05em;
 }
 
-.card-links { padding: 1.25rem 1.5rem 1.75rem; display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap; }
+/* Names and positions wrap to different line counts, and members fill in
+   different numbers of profiles. Laying the card out as a column and pinning
+   the links to the bottom keeps every card's icon row and handle on the same
+   line across a grid row. */
+.team-card { display: flex; flex-direction: column; }
+
+.card-links {
+  padding: 1.25rem 1.5rem 1.75rem;
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.card-icons { display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap; }
 
 .codeforces-link {
   padding: 0.45rem 0.9rem;
