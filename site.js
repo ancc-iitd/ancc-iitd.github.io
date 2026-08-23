@@ -11,6 +11,7 @@ const NAV_LINKS = [
   { href: 'contests.html',  label: 'Contests',          page: 'contests' },
   // { href: 'pod.html',     label: 'Problem of the Day', page: 'pod' },
   // { href: 'caic_points.html', label: 'CAIC Points',   page: 'caic' },
+  { href: 'team2026.html',  label: 'Team 2026',         page: 'team2026' },
   { href: 'team2025.html',  label: 'Team 2025',         page: 'team2025' },
   { href: 'team2024.html',  label: 'Team 2024',         page: 'team2024' },
   { href: 'socp.html',      label: 'SoCP 2021',         page: 'socp' },
@@ -153,13 +154,41 @@ async function fetchSheet(url) {
   return parseTSV(await res.text());
 }
 
-/* ---------- Codeforces rating colours ---------- */
-function applyCodeforcesColors() {
-  const users = document.getElementsByClassName('rated-user');
-  if (users.length === 0) return;
+/* ---------- Codeforces user info ----------
+   One batched call feeds both the ordering (by max rating) and the handle
+   colours. The API rejects the whole batch when a single handle is unknown,
+   so drop the handle it names and retry; give up rather than stall the page,
+   in which case cards keep sheet order and the default colour.            */
+async function fetchCodeforcesInfo(handles, timeoutMs = 6000) {
+  const info = new Map();
+  let pending = [...new Set(handles.filter(Boolean))];
 
-  let query = '';
-  for (let i = 0; i < users.length; i++) query += users[i].innerText + ';';
+  for (let attempt = 0; pending.length && attempt < 5; attempt++) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      const res = await fetch('https://codeforces.com/api/user.info?handles=' + pending.join(';'),
+                              { signal: controller.signal });
+      const cf = await res.json();
+      if (cf.status === 'OK') {
+        cf.result.forEach(u => info.set(u.handle.toLowerCase(), u));
+        break;
+      }
+      const unknown = (cf.comment || '').match(/User with handle (\S+) not found/i);
+      if (!unknown) break;
+      pending = pending.filter(h => h.toLowerCase() !== unknown[1].toLowerCase());
+    } catch (e) {
+      break;
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+  return info;
+}
+
+/* ---------- Codeforces rating colours ---------- */
+function applyCodeforcesColors(info) {
+  if (!info || info.size === 0) return;
 
   const RANK_COLOR = {
     'newbie': 'gray',
@@ -174,19 +203,27 @@ function applyCodeforcesColors() {
     'legendary grandmaster': 'legendary',
   };
 
-  fetch('https://codeforces.com/api/user.info?handles=' + query)
-    .then(r => r.json())
-    .then(cf => {
-      if (cf.status !== 'OK') return;
-      for (let i = 0; i < users.length; i++) {
-        const color = RANK_COLOR[cf.result[i] && cf.result[i].rank] || 'black';
-        users[i].className = 'codeforces-link rated-user user-' + color;
-      }
-    })
-    .catch(() => { /* leave default colour */ });
+  // Match on the rendered handle, not position, so a dropped handle cannot
+  // shift every colour after it.
+  Array.from(document.getElementsByClassName('rated-user')).forEach(el => {
+    const user = info.get(el.innerText.trim().toLowerCase());
+    const color = RANK_COLOR[user && user.rank] || 'black';
+    el.className = 'codeforces-link rated-user user-' + color;
+  });
 }
 
-/* ---------- Profile URL normalisers ---------- */
+/* ---------- Profile URL normalisers ----------
+   Rows come straight from the recruitment form, so a field may hold a full
+   URL, a bare handle, a stand-in like "NA", or a plain name typed into the
+   wrong box. Anything that is not a usable handle/URL is dropped so the card
+   simply omits that icon instead of linking somewhere broken.            */
+const PLACEHOLDER_VALUES = ['na', 'n/a', 'nil', 'none', 'nan', 'null', '-', '--'];
+
+function cleanValue(value) {
+  value = (value || '').replace(/\s+/g, ' ').trim();
+  return PLACEHOLDER_VALUES.includes(value.toLowerCase()) ? '' : value;
+}
+
 function ensureHttp(url) {
   url = (url || '').trim();
   if (!url) return '';
@@ -194,28 +231,97 @@ function ensureHttp(url) {
 }
 
 function githubUrl(value) {
-  value = (value || '').trim();
+  value = cleanValue(value);
   if (!value) return '';
   if (/github\.com/i.test(value)) return ensureHttp(value);   // full or protocol-less URL
-  return 'https://github.com/' + value.replace(/^@/, '');       // bare username
+  value = value.replace(/^@/, '');
+  return /^[\w-]+$/.test(value) ? 'https://github.com/' + value : '';
+}
+
+function linkedinUrl(value) {
+  value = cleanValue(value);
+  if (!value) return '';
+  if (/linkedin\.com/i.test(value)) return ensureHttp(value);  // full or protocol-less URL
+  // A bare vanity slug ("gandem-nitin-941b13229") is a profile; a name is not.
+  return /^[\w.-]+$/.test(value) ? 'https://www.linkedin.com/in/' + value : '';
+}
+
+function instagramUrl(value) {
+  value = cleanValue(value).replace(/^@/, '');
+  if (!value) return '';
+  if (/instagram\.com/i.test(value)) return ensureHttp(value);
+  return /^[\w.]+$/.test(value) ? 'https://www.instagram.com/' + value : '';
 }
 
 function codeforcesHandle(value) {
-  value = (value || '').trim();
+  value = cleanValue(value);
   const m = value.match(/codeforces\.com\/profile\/([^/?#]+)/i);
-  return (m ? m[1] : value).replace(/^@/, '');                  // extract handle from URL or use as-is
+  const handle = (m ? m[1] : value).replace(/^@/, '');          // extract handle from URL or use as-is
+  return /^[\w.-]+$/.test(handle) ? handle : '';
 }
 
-/* ---------- Team cards (shared by index, team2024, team2025) ---------- */
-function generateTeamCard(name, position, codeforces, github, linkedin, photoUrl) {
-  const directPhotoUrl = convertGoogleDriveLink(photoUrl);
-  const initials = name.split(' ').map(w => w.charAt(0)).join('').toUpperCase();
-  const cfHandle = codeforcesHandle(codeforces);
+/* ---------- Team sheet columns ----------
+   Older rosters are hand-kept sheets; newer ones are form-response sheets
+   whose headers differ in wording and case ("Handle" vs "Codeforces handle",
+   "photoUrl" vs "Photo (Size limit : 10 MB)"). Match exactly, then by prefix. */
+const TEAM_COLUMNS = {
+  name:       ['Name'],
+  position:   ['Position'],
+  codeforces: ['Handle', 'Codeforces handle'],
+  github:     ['Github Username', 'Github username'],
+  linkedin:   ['LinkedIn Profile', 'LinkedIn profile'],
+  instagram:  ['Instagram username'],
+  photo:      ['photoUrl', 'Photo'],
+};
+
+function sheetField(record, candidates) {
+  const keys = Object.keys(record);
+  for (const want of candidates) {
+    const w = want.toLowerCase();
+    const key = keys.find(k => k.toLowerCase() === w) ||
+                keys.find(k => k.toLowerCase().startsWith(w));
+    if (key) return record[key];
+  }
+  return '';
+}
+
+/* Form sheets abbreviate the top roles; cards show the full title. Expanded
+   once when a row is read, so the label and the sort key stay in step. */
+const POSITION_LABELS = {
+  'oc': 'Overall Coordinator',
+  'co-oc': 'Co-Overall Coordinator',
+};
+
+function positionLabel(position) {
+  return POSITION_LABELS[position.toLowerCase()] || position;
+}
+
+/* Seniority order; anything unrecognised sorts to the end. */
+const POSITION_ORDER = [
+  'overall coordinator', 'co-overall coordinator', 'panel member',
+  'ctm & treasurer', 'ctm',
+  'coordinator',
+  'executive', 'representative',
+];
+
+function positionRank(position) {
+  const i = POSITION_ORDER.indexOf(position.toLowerCase());
+  return i === -1 ? POSITION_ORDER.length : i;
+}
+
+/* ---------- Team cards (shared by index and every team page) ---------- */
+function generateTeamCard(member) {
+  const directPhotoUrl = convertGoogleDriveLink(member.photo);
+  const initials = member.name.split(' ').map(w => w.charAt(0)).join('').toUpperCase();
+  const cfHandle = codeforcesHandle(member.codeforces);
+  const linkedin = linkedinUrl(member.linkedin);
+  const github = githubUrl(member.github);
+  const instagram = instagramUrl(member.instagram);
 
   let card = "<div class='team-card fade-in'>";
   card += "<div class='card-photo-section'>";
   if (directPhotoUrl) {
-    card += `<img src='${directPhotoUrl}' alt='${name}' class='profile-photo loading'
+    card += `<img src='${directPhotoUrl}' alt='${member.name}' class='profile-photo loading'
              onload="this.classList.remove('loading'); this.nextElementSibling.style.display='none';"
              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">`;
     card += `<div class='profile-photo-placeholder' style='display:none;'>${initials}</div>`;
@@ -225,13 +331,14 @@ function generateTeamCard(name, position, codeforces, github, linkedin, photoUrl
   card += "</div>";
 
   card += "<div class='card-header-custom'>";
-  card += "<h5 class='card-name'>" + name + "</h5>";
-  card += "<p class='card-position'>" + position + "</p>";
+  card += "<h5 class='card-name'>" + member.name + "</h5>";
+  card += "<p class='card-position'>" + member.position + "</p>";
   card += "</div>";
 
   card += "<div class='card-links'>";
-  if (linkedin)   card += "<a target='_blank' rel='noopener' href='" + ensureHttp(linkedin) + "' class='social-link linkedin-link' title='LinkedIn'><i class='fab fa-linkedin-in'></i></a>";
-  if (github)     card += "<a target='_blank' rel='noopener' href='" + githubUrl(github) + "' class='social-link github-link' title='GitHub'><i class='fab fa-github'></i></a>";
+  if (linkedin)   card += "<a target='_blank' rel='noopener' href='" + linkedin + "' class='social-link linkedin-link' title='LinkedIn'><i class='fab fa-linkedin-in'></i></a>";
+  if (github)     card += "<a target='_blank' rel='noopener' href='" + github + "' class='social-link github-link' title='GitHub'><i class='fab fa-github'></i></a>";
+  if (instagram)  card += "<a target='_blank' rel='noopener' href='" + instagram + "' class='social-link instagram-link' title='Instagram'><i class='fab fa-instagram'></i></a>";
   if (cfHandle)   card += "<a target='_blank' rel='noopener' href='https://codeforces.com/profile/" + cfHandle + "' class='codeforces-link rated-user user-black' title='Codeforces'>" + cfHandle + "</a>";
   card += "</div>";
 
@@ -248,14 +355,30 @@ async function loadTeam(sheetUrl) {
     if (loading) loading.style.display = 'none';
     if (teamH) teamH.style.display = 'block';
 
-    team.innerHTML = records.map(r => generateTeamCard(
-      (r['Name'] || '').replace(/\n/g, '').trim(),
-      r['Position'] || '',
-      r['Handle'] || '',
-      r['Github Username'] || '',
-      r['LinkedIn Profile'] || '',
-      r['photoUrl'] || ''
-    )).join('');
+    const members = records
+      .map(r => ({
+        name:       cleanValue(sheetField(r, TEAM_COLUMNS.name)),
+        position:   positionLabel(cleanValue(sheetField(r, TEAM_COLUMNS.position))),
+        codeforces: sheetField(r, TEAM_COLUMNS.codeforces),
+        github:     sheetField(r, TEAM_COLUMNS.github),
+        linkedin:   sheetField(r, TEAM_COLUMNS.linkedin),
+        instagram:  sheetField(r, TEAM_COLUMNS.instagram),
+        photo:      sheetField(r, TEAM_COLUMNS.photo),
+      }))
+      .filter(m => m.name);
+
+    const info = await fetchCodeforcesInfo(members.map(m => codeforcesHandle(m.codeforces)));
+    const maxRating = m => {
+      const user = info.get(codeforcesHandle(m.codeforces).toLowerCase());
+      return user && typeof user.maxRating === 'number' ? user.maxRating : -1;
+    };
+
+    // Strongest max rating first inside each position group; unrated members
+    // and anyone without a usable handle fall to the end of their group.
+    members.sort((a, b) =>
+      positionRank(a.position) - positionRank(b.position) || maxRating(b) - maxRating(a));
+
+    team.innerHTML = members.map(m => generateTeamCard(m)).join('');
 
     team.classList.add('stagger-animation');
     team.querySelectorAll('.team-card').forEach((card, i) => {
@@ -263,7 +386,7 @@ async function loadTeam(sheetUrl) {
       card.style.transform = 'translateY(50px)';
     });
 
-    applyCodeforcesColors();
+    applyCodeforcesColors(info);
   } catch (e) {
     if (loading) loading.innerHTML = '<p class="text-danger">Could not load the team right now. Please try again later.</p>';
   }
