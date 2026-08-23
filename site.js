@@ -310,9 +310,18 @@ function positionRank(position) {
   return i === -1 ? POSITION_ORDER.length : i;
 }
 
+/* Most uploads are framed fine; a few sit so far back the face is tiny. Zoom
+   those individually — the circular .photo-frame clips the overflow. Keys are
+   lowercased names; values are the CSS scale factor. */
+const PHOTO_ZOOM = {
+  'arya gujar': 1.3,
+};
+
 /* ---------- Team cards (shared by index and every team page) ---------- */
 function generateTeamCard(member) {
   const directPhotoUrl = convertGoogleDriveLink(member.photo);
+  const zoom = PHOTO_ZOOM[member.name.toLowerCase()];
+  const zoomStyle = zoom ? ` style='transform: scale(${zoom})'` : '';
   const initials = member.name.split(' ').map(w => w.charAt(0)).join('').toUpperCase();
   const cfHandle = codeforcesHandle(member.codeforces);
   const linkedin = linkedinUrl(member.linkedin);
@@ -320,16 +329,16 @@ function generateTeamCard(member) {
   const instagram = instagramUrl(member.instagram);
 
   let card = "<div class='team-card fade-in'>";
-  card += "<div class='card-photo-section'>";
+  card += "<div class='card-photo-section'><div class='photo-frame'>";
   if (directPhotoUrl) {
-    card += `<img src='${directPhotoUrl}' alt='${member.name}' class='profile-photo loading'
+    card += `<img src='${directPhotoUrl}' alt='${member.name}' class='profile-photo loading'${zoomStyle}
              onload="this.classList.remove('loading'); this.nextElementSibling.style.display='none';"
              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">`;
     card += `<div class='profile-photo-placeholder' style='display:none;'>${initials}</div>`;
   } else {
     card += `<div class='profile-photo-placeholder'>${initials}</div>`;
   }
-  card += "</div>";
+  card += "</div></div>";
 
   card += "<div class='card-header-custom'>";
   card += "<h5 class='card-name'>" + member.name + "</h5>";
